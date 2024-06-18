@@ -1,0 +1,112 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "Update Call Logs Status",
+  "Metadata": {
+    "entryPointPosition": { "x": 40, "y": 40 },
+    "ActionMetadata": {
+      "2882b99d-03ad-406b-97fe-130f73ef52ad": {
+        "position": { "x": 1376, "y": 164 }
+      },
+      "45abb3db-0161-4a2b-864f-99c3e9a102f5": {
+        "position": { "x": 1041.6, "y": 139.2 }
+      },
+      "Inform User has Timed Out": {
+        "position": { "x": 688, "y": 61.6 },
+        "isFriendlyName": true
+      },
+      "Update Call Logs Status": {
+        "position": { "x": 334.4, "y": 24 },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "displayName": "<<PROJECT_NAME>>-updateCallLogsLambda"
+          }
+        },
+        "dynamicMetadata": { "action": false, "status": false }
+      }
+    },
+    "Annotations": [],
+    "name": "",
+    "description": "",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {},
+      "Identifier": "2882b99d-03ad-406b-97fe-130f73ef52ad",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          { "ParticipantType": "Customer", "MediaDirections": ["To", "From"] }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "45abb3db-0161-4a2b-864f-99c3e9a102f5",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "2882b99d-03ad-406b-97fe-130f73ef52ad",
+        "Errors": [
+          {
+            "NextAction": "2882b99d-03ad-406b-97fe-130f73ef52ad",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry for not getting it right.  You can just tell us what is incorrect or any concerns you’d like addressed now. <break time=\"5000ms\"/></speak>"
+      },
+      "Identifier": "Inform User has Timed Out",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "45abb3db-0161-4a2b-864f-99c3e9a102f5",
+        "Errors": [
+          {
+            "NextAction": "2882b99d-03ad-406b-97fe-130f73ef52ad",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "arn:aws:lambda:<<REGION>>:<<ACCOUNT>>:function:OutboundCall-updateCallLogsLambda",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "updateStatus",
+          "status": "TIME_OUT"
+        },
+        "ResponseValidation": { "ResponseType": "STRING_MAP" }
+      },
+      "Identifier": "Update Call Logs Status",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Inform User has Timed Out",
+        "Errors": [
+          {
+            "NextAction": "2882b99d-03ad-406b-97fe-130f73ef52ad",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    }
+  ],
+  "Settings": {
+    "InputParameters": [],
+    "OutputParameters": [],
+    "Transitions": [
+      {
+        "DisplayName": "Success",
+        "ReferenceName": "Success",
+        "Description": ""
+      },
+      { "DisplayName": "Error", "ReferenceName": "Error", "Description": "" }
+    ]
+  }
+}

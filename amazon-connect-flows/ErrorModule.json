@@ -1,0 +1,106 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "f5b24eb2-5d65-45c0-8222-d1e045307f22",
+  "Metadata": {
+    "entryPointPosition": { "x": 40, "y": 40 },
+    "ActionMetadata": {
+      "1d927523-88b4-4a89-ab29-3949d172e235": {
+        "position": { "x": 1326.4, "y": 289.6 }
+      },
+      "f5b24eb2-5d65-45c0-8222-d1e045307f22": {
+        "position": { "x": 239.2, "y": 23.2 },
+        "parameters": {
+          "LambdaFunctionARN": {
+            "displayName": "<<PROJECT_NAME>>-updateCallLogsLambda"
+          }
+        },
+        "dynamicMetadata": { "action": false, "status": false }
+      },
+      "Stop Streaming": {
+        "position": { "x": 921.6, "y": 224.8 },
+        "isFriendlyName": true
+      },
+      "Say Error Prompt": {
+        "position": { "x": 644.8, "y": 21.6 },
+        "isFriendlyName": true
+      }
+    },
+    "Annotations": [],
+    "name": "ErrorHandlingModule",
+    "description": "Module for Error Handling",
+    "status": "saved",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {},
+      "Identifier": "1d927523-88b4-4a89-ab29-3949d172e235",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "arn:aws:lambda:<<REGION>>:<<ACCOUNT>>:function:OutboundCall-updateCallLogsLambda",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "updateStatus",
+          "status": "ERROR"
+        },
+        "ResponseValidation": { "ResponseType": "STRING_MAP" }
+      },
+      "Identifier": "f5b24eb2-5d65-45c0-8222-d1e045307f22",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say Error Prompt",
+        "Errors": [
+          { "NextAction": "Stop Streaming", "ErrorType": "NoMatchingError" }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          { "ParticipantType": "Customer", "MediaDirections": ["To", "From"] }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "Stop Streaming",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "1d927523-88b4-4a89-ab29-3949d172e235",
+        "Errors": [
+          {
+            "NextAction": "1d927523-88b4-4a89-ab29-3949d172e235",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry we are unable to process your request</speak>"
+      },
+      "Identifier": "Say Error Prompt",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "Stop Streaming",
+        "Errors": [
+          { "NextAction": "Stop Streaming", "ErrorType": "NoMatchingError" }
+        ]
+      }
+    }
+  ],
+  "Settings": {
+    "InputParameters": [],
+    "OutputParameters": [],
+    "Transitions": [
+      {
+        "DisplayName": "Success",
+        "ReferenceName": "Success",
+        "Description": ""
+      },
+      { "DisplayName": "Error", "ReferenceName": "Error", "Description": "" }
+    ]
+  }
+}
