@@ -20,3 +20,6 @@ cdk.out
 
 # Web App Build
 dist
+
+# Lambda Layer
+lambdas-layer/*.zip
