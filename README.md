@@ -26,7 +26,7 @@ The lambda functions in this samples require some packages that will be imported
 ### Build Web Application
 
 ```
-cd web-app/amazon-connect-callback
+cd web-app
 npm install
 npm run build
 ```

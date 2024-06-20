@@ -1,5 +1,4 @@
 import { Text, useTheme, View, Image, Heading } from "@aws-amplify/ui-react";
-import paceLogo from "../../assets/pace-grey.png";
 
 export const components = {
   Header() {
@@ -7,7 +6,6 @@ export const components = {
 
     return (
       <View textAlign="center" padding={tokens.space.large}>
-        <Image alt="FSI PACE" src={paceLogo} padding={tokens.space.medium} />
         <Text
           variation="info"
           as="strong"
