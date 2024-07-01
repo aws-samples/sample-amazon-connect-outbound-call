@@ -125,8 +125,9 @@ def readUnsignedIntegerSevenByteOrLess(byteBuffer, size):
 
 
 def readDataSignedInteger(byteBuffer, size):
-    assert size >= 0 and size <= EBML_SIZE_MAX_BTYES, f"Asked for a numberic value of invalid size {
-        size}"
+    if (size >= 0 and size <= EBML_SIZE_MAX_BTYES):
+        raise AssertionError(f"Asked for a numberic value of invalid" +
+                             f"size {size}")
 
     value = 0
     for i in range(size):
@@ -147,7 +148,9 @@ def readEbmlnt(buffer) -> int:
     See Also: "http://www.matroska.org/technical/specs/rfc/index.html"
     '''
     firstByte = buffer.pop(0) & 0xFF
-    assert firstByte >= 0, f"EBML Int has negative firstByte {firstByte}"
+
+    if (firstByte >= 0):
+        raise AssertionError(f"EBML Int has negative firstByte {firstByte}")
 
     size = getNumLeadingZeros(firstByte)
 

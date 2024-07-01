@@ -47,29 +47,32 @@ kinesisVideoClient = boto3.client('kinesisvideo')
 # Load the MKV Schema
 schema = loadSchema('matroska.xml')
 
+
 def sendSqsMessage(bucketKey, contactId, requestId):
     payload = {
         'bucketName': S3_BUCKET_NAME,
         'audioFile': bucketKey,
         'contactId': contactId,
         'messageId': requestId
-    };
-    
-    response = queue.send_message(MessageBody=json.dumps(payload))    
+    }
+
+    response = queue.send_message(MessageBody=json.dumps(payload))
+
 
 def uploadtoS3(contactId, requestId, buffer):
-    bucket_key = "recording/" + contactId + "_" + requestId +  ".wav"
-    
+    bucket_key = "recording/" + contactId + "_" + requestId + ".wav"
+
     logger.info(f"Uploading the recording to {bucket_key}")
-    
+
     buffer.seek(0)
     s3Client.upload_fileobj(buffer, S3_BUCKET_NAME, bucket_key)
-    
+
     return bucket_key
-    
+
 
 def startKvsRecording(streamARN, startFragmentNum, contactId, requestId):
-    logger.info(f"Start KVS Recording with streamARN: {streamARN}, fragment: {startFragmentNum}, ContactId: {contactId}, MessageId: {requestId}")
+    logger.info(f"Start KVS Recording with streamARN: {streamARN}, fragment: {
+                startFragmentNum}, ContactId: {contactId}, MessageId: {requestId}")
 
     # Get Kinesis Video Media Client
     # Need to retrieve it via dataEndPoint
@@ -81,8 +84,6 @@ def startKvsRecording(streamARN, startFragmentNum, contactId, requestId):
 
     streamResponse = kvmClient.get_media(StreamARN=streamARN, StartSelector={
                                          "StartSelectorType": "FRAGMENT_NUMBER", "AfterFragmentNumber": startFragmentNum})
-
-    assert streamResponse["ResponseMetadata"]['HTTPStatusCode'] == 200, "Error while reading response"
 
     # Initialize the buffer to hold the data
     chunk_buffer = bytearray()
@@ -165,42 +166,46 @@ def startKvsRecording(streamARN, startFragmentNum, contactId, requestId):
     # Combine the Audio & upload to S3
     bucketKey = uploadtoS3(contactId, requestId, EBMLUtils.combineAudio(contactId, BytesIO(audioFromCustomerBuffer),
                            BytesIO(audioToCustomerBuffer)))
-    
+
     # Trigger Transcribe Job
     sendSqsMessage(bucketKey, contactId, requestId)
-    
+
     # Update Call Logs
     updateDb(contactId, requestId, S3_BUCKET_NAME, bucketKey)
 
-# Update DynamoDB Table    
+# Update DynamoDB Table
+
+
 def updateDb(contactId, messageId, bucketName, bucketKey):
-    try: 
+    try:
         response = outboundCallRequestTable.update_item(
             Key={'contactId': contactId},
-        AttributeUpdates={'recordingBucket': {'Value': bucketName,},
-                          'recordingKey':{'Value': bucketKey},
-                          'updatedDateTime': {'Value': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-                          },
+            AttributeUpdates={'recordingBucket': {'Value': bucketName, },
+                              'recordingKey': {'Value': bucketKey},
+                              'updatedDateTime': {'Value': datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+                              },
             ReturnValues="NONE",
         )
         return {'statusCode': '200'}
     except Exception as exception:
         logger.error("Error updating Call Logs")
         logger.error(exception)
-        return {'statusCode': '500'}    
+        return {'statusCode': '500'}
 
 # Decorator to inject Lambda context into the logger
+
+
 @logger.inject_lambda_context(log_event=True)
 # Tracer decorator to capture the Lambda handler for tracing
 @tracer.capture_lambda_handler
-def lambda_handler(event, context):    
+def lambda_handler(event, context):
     for record in event['Records']:
         logger.info("Processing: " + json.dumps(record))
         payload = json.loads(record['body'])
         tracer.put_annotation(key="messageId", value=payload['messageId'])
         tracer.put_annotation(key="ContactId", value=payload['contactId'])
-        
-        startKvsRecording(payload['streamARN'], payload['startFragmentNum'], payload['contactId'], payload['messageId'])
+
+        startKvsRecording(payload['streamARN'], payload['startFragmentNum'],
+                          payload['contactId'], payload['messageId'])
 
     return {'statusCode': '201'}
-
