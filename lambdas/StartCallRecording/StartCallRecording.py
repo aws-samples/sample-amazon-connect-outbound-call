@@ -154,14 +154,6 @@ def startKvsRecording(streamARN, startFragmentNum, contactId, requestId):
         if (stopProcessing):
             break
 
-    if (len(audioToCustomerBuffer) > 0):
-        # Save the File
-        EBMLUtils.saveBuffer(audioToCustomerBuffer,
-                             contactId, AUDIO_TO_CUSTOMER)
-    if (len(audioFromCustomerBuffer) > 0):
-        EBMLUtils.saveBuffer(audioFromCustomerBuffer,
-                             contactId, AUDIO_FROM_CUSTOMER)
-
     logger.info("Finished recording, uploading to S3")
     # Combine the Audio & upload to S3
     bucketKey = uploadtoS3(contactId, requestId, EBMLUtils.combineAudio(contactId, BytesIO(audioFromCustomerBuffer),

@@ -17,6 +17,7 @@ from io import BytesIO
 import wave
 from ebmlite import core
 from pydub import AudioSegment
+import tempfile
 
 BYTE_WITH_FIRST_BIT_SET = 0b10000000
 EBML_ID_MAX_BYTES = 4
@@ -183,7 +184,7 @@ def saveBuffer(audio_buffer, contactId, trackName):
     framerate = 8000
     nframes = len(audio_buffer) // sampwidth
 
-    with wave.open(f"/tmp/{contactId}_{trackName}.wav", "wb") as wavfile:
+    with wave.open(f"{tempfile.gettempdir()}/{contactId}_{trackName}.wav", "wb") as wavfile:
         wavfile.setparams((nchannels, sampwidth, framerate,
                            nframes, 'NONE', 'not compressed'))
         wavfile.writeframes(audio_buffer)
