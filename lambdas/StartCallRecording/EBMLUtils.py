@@ -17,6 +17,7 @@ from io import BytesIO
 import wave
 from ebmlite import core
 from pydub import AudioSegment
+import tempfile
 
 BYTE_WITH_FIRST_BIT_SET = 0b10000000
 EBML_ID_MAX_BYTES = 4
@@ -125,8 +126,9 @@ def readUnsignedIntegerSevenByteOrLess(byteBuffer, size):
 
 
 def readDataSignedInteger(byteBuffer, size):
-    assert size >= 0 and size <= EBML_SIZE_MAX_BTYES, f"Asked for a numberic value of invalid size {
-        size}"
+    if (size >= 0 and size <= EBML_SIZE_MAX_BTYES):
+        raise AssertionError(f"Asked for a numberic value of invalid" +
+                             f"size {size}")
 
     value = 0
     for i in range(size):
@@ -147,7 +149,9 @@ def readEbmlnt(buffer) -> int:
     See Also: "http://www.matroska.org/technical/specs/rfc/index.html"
     '''
     firstByte = buffer.pop(0) & 0xFF
-    assert firstByte >= 0, f"EBML Int has negative firstByte {firstByte}"
+
+    if (firstByte >= 0):
+        raise AssertionError(f"EBML Int has negative firstByte {firstByte}")
 
     size = getNumLeadingZeros(firstByte)
 
@@ -180,7 +184,7 @@ def saveBuffer(audio_buffer, contactId, trackName):
     framerate = 8000
     nframes = len(audio_buffer) // sampwidth
 
-    with wave.open(f"/tmp/{contactId}_{trackName}.wav", "wb") as wavfile:
+    with wave.open(f"{tempfile.gettempdir()}/{contactId}_{trackName}.wav", "wb") as wavfile:
         wavfile.setparams((nchannels, sampwidth, framerate,
                            nframes, 'NONE', 'not compressed'))
         wavfile.writeframes(audio_buffer)
