@@ -45,4 +45,19 @@ export const components = {
       );
     },
   },
+
+  SignUp: {
+    Header() {
+      const { tokens } = useTheme();
+
+      return (
+        <Heading
+          padding={`${tokens.space.xl} 0 0 ${tokens.space.xl}`}
+          level={3}
+        >
+          Create a new account
+        </Heading>
+      );
+    },
+  },
 };

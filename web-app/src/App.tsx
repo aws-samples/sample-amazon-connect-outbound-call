@@ -27,10 +27,9 @@ function App() {
   return (
     <div>
       <Authenticator
-        loginMechanisms={["username"]}
+        loginMechanisms={["email"]}
         signUpAttributes={["email"]}
         components={components}
-        hideSignUp
       >
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MainMenu />

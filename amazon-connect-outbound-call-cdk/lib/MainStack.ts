@@ -90,6 +90,7 @@ export class MainStack extends cdk.Stack {
         billingMode: cdk.aws_dynamodb.BillingMode.PAY_PER_REQUEST,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
         tableName: OUTBOUND_CALL_LOGS_TABLE,
+        pointInTimeRecovery: true,
       }
     );
 

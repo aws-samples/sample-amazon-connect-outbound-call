@@ -118,5 +118,16 @@ export class FrontEndStack extends cdk.Stack {
         );
       }
     });
+
+    NagSuppressions.addStackSuppressions(
+      this,
+      [
+        {
+          id: "AwsSolutions-L1",
+          reason: "Using non-container Lambda Function",
+        },
+      ],
+      true
+    );
   }
 }
