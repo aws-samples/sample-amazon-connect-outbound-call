@@ -18,9 +18,7 @@ import * as cognito from "aws-cdk-lib/aws-cognito";
 import { Duration } from "aws-cdk-lib";
 import { IGlobalProps } from "../../bin/amazon-connect-outbound-call-cdk";
 
-interface CognitoConstructProps extends IGlobalProps {
-  // domainName: string;
-}
+interface CognitoConstructProps extends IGlobalProps {}
 
 export class CognitoConstruct extends Construct {
   cognitoUserPool: cognito.UserPool;
@@ -33,7 +31,7 @@ export class CognitoConstruct extends Construct {
     // Cognito User Pool
     this.cognitoUserPool = new cognito.UserPool(this, "UserPool", {
       signInAliases: { username: false, email: true, phone: false },
-      autoVerify: { email: false },
+      autoVerify: { email: true },
       passwordPolicy: {
         minLength: 8,
         requireLowercase: true,
@@ -43,7 +41,7 @@ export class CognitoConstruct extends Construct {
         tempPasswordValidity: Duration.days(3),
       },
       mfa: cognito.Mfa.OFF,
-      selfSignUpEnabled: false,
+      selfSignUpEnabled: true,
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
       email: cognito.UserPoolEmail.withCognito("noreply@amazon.com"),
       userPoolName: `${props.projectName}UserPool`,

@@ -8,20 +8,17 @@
         "position": { "x": 1326.4, "y": 289.6 }
       },
       "f5b24eb2-5d65-45c0-8222-d1e045307f22": {
-        "position": { "x": 239.2, "y": 23.2 },
-        "parameters": {
-          "LambdaFunctionARN": {
-            "displayName": "<<PROJECT_NAME>>-updateCallLogsLambda"
-          }
-        },
-        "dynamicMetadata": { "action": false, "status": false }
-      },
-      "Stop Streaming": {
-        "position": { "x": 921.6, "y": 224.8 },
-        "isFriendlyName": true
+        "position": { "x": 231.2, "y": 21.6 },
+        "parameters": { "LambdaFunctionARN": { "useDynamic": true } },
+        "dynamicMetadata": { "action": false, "status": false },
+        "useDynamic": true
       },
       "Say Error Prompt": {
         "position": { "x": 644.8, "y": 21.6 },
+        "isFriendlyName": true
+      },
+      "Stop Streaming": {
+        "position": { "x": 952, "y": 226.4 },
         "isFriendlyName": true
       }
     },
@@ -40,7 +37,7 @@
     },
     {
       "Parameters": {
-        "LambdaFunctionARN": "arn:aws:lambda:<<REGION>>:<<ACCOUNT>>:function:OutboundCall-updateCallLogsLambda",
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
         "InvocationTimeLimitSeconds": "3",
         "LambdaInvocationAttributes": {
           "action": "updateStatus",
@@ -52,6 +49,19 @@
       "Type": "InvokeLambdaFunction",
       "Transitions": {
         "NextAction": "Say Error Prompt",
+        "Errors": [
+          { "NextAction": "Stop Streaming", "ErrorType": "NoMatchingError" }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry we are unable to process your request</speak>"
+      },
+      "Identifier": "Say Error Prompt",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "Stop Streaming",
         "Errors": [
           { "NextAction": "Stop Streaming", "ErrorType": "NoMatchingError" }
         ]
@@ -74,19 +84,6 @@
             "NextAction": "1d927523-88b4-4a89-ab29-3949d172e235",
             "ErrorType": "NoMatchingError"
           }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "SSML": "<speak>Sorry we are unable to process your request</speak>"
-      },
-      "Identifier": "Say Error Prompt",
-      "Type": "MessageParticipant",
-      "Transitions": {
-        "NextAction": "Stop Streaming",
-        "Errors": [
-          { "NextAction": "Stop Streaming", "ErrorType": "NoMatchingError" }
         ]
       }
     }

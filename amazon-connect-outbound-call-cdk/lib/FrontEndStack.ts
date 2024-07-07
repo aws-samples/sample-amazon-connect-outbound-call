@@ -58,8 +58,6 @@ export class FrontEndStack extends cdk.Stack {
       "RestApiLambdas",
       {
         ...props,
-        queueConstruct: props.mainStack.queueConstruct,
-        amazonConnectbucket: props.mainStack.amazonConnectbucket,
       }
     );
 
@@ -87,6 +85,10 @@ export class FrontEndStack extends cdk.Stack {
       retainOnDelete: false,
       distribution: cfConstruct.cfDistribution,
       distributionPaths: ["/*"],
+    });
+
+    const web_url = new cdk.CfnOutput(this, "web_app_url", {
+      value: `https://${cfConstruct.cfDistribution.domainName}`,
     });
 
     this.node.findAll().forEach((resource) => {
@@ -118,16 +120,5 @@ export class FrontEndStack extends cdk.Stack {
         );
       }
     });
-
-    NagSuppressions.addStackSuppressions(
-      this,
-      [
-        {
-          id: "AwsSolutions-L1",
-          reason: "Using non-container Lambda Function",
-        },
-      ],
-      true
-    );
   }
 }

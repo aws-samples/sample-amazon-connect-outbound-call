@@ -20,7 +20,6 @@ import * as s3 from "aws-cdk-lib/aws-s3";
 import { Key } from "aws-cdk-lib/aws-kms";
 import * as fs from "fs";
 import { LexStack } from "../LexStack";
-import { error } from "console";
 
 interface AmazonConnectConstructProps extends IGlobalProps {
   connectBucket: s3.Bucket;
@@ -32,6 +31,10 @@ export class AmazonConnectConstruct extends Construct {
   connectInstance: connect.CfnInstance;
   outboundCallQueue: connect.CfnQueue;
   outboundContactFlow: connect.CfnContactFlow;
+  initModule: connect.CfnContactFlowModule;
+  errorModule: connect.CfnContactFlowModule;
+  getCustomerNameModule: connect.CfnContactFlowModule;
+  getCustomerResponseModule: connect.CfnContactFlowModule;
 
   /**
    * Helper function that return array of CRUD with input string
@@ -371,43 +374,59 @@ export class AmazonConnectConstruct extends Construct {
       ],
     });
 
-    // Error Module
-    const errorModule = new connect.CfnContactFlowModule(this, "errorModule", {
+    // Init Module
+    this.initModule = new connect.CfnContactFlowModule(this, "initModule", {
       instanceArn: this.connectInstance.attrArn,
-      name: "ErrorHandlingModule",
-      description: "Module for Error Handling",
-      content: readAndReplaceLambdaArn(
-        "../amazon-connect-flows/ErrorModule.json",
-        props
+      name: "InitFlowModule",
+      description: "Flow Module for Initializing the outbound call",
+      content: fs.readFileSync(
+        "../amazon-connect-flows/InitModule.json",
+        "utf-8"
       ),
     });
 
-    errorModule.attrContactFlowModuleArn;
-
-    // Timeout Module
-    const timeoutModule = new connect.CfnContactFlowModule(
+    // Get Customer Name Flow Module
+    this.getCustomerNameModule = new connect.CfnContactFlowModule(
       this,
-      "timeoutModule",
+      "getCustomerNameModule",
       {
         instanceArn: this.connectInstance.attrArn,
-        name: "timeoutModule",
-        description: "Module for Timeout Handling",
-        content: readAndReplaceLambdaArn(
-          "../amazon-connect-flows/TimeOutModule.json",
-          props
+        name: "getCustNameFlowModule",
+        description: "Flow Module for getting Customer Name",
+        content: fs.readFileSync(
+          "../amazon-connect-flows/GetCustomerNameModule.json",
+          "utf-8"
         ),
       }
     );
 
-    // Outbound Call Flow
-    let outboundCallFlowJson = readAndReplaceLambdaArn(
-      "../amazon-connect-flows/OutboundCallFlow.json",
-      props
+    // Get Customer Name Flow Module
+    this.getCustomerResponseModule = new connect.CfnContactFlowModule(
+      this,
+      "getCustomerResponseModule",
+      {
+        instanceArn: this.connectInstance.attrArn,
+        name: "getCustomerResponseModule",
+        description: "Flow Module for getting Customer Response",
+        content: fs.readFileSync(
+          "../amazon-connect-flows/GetCustomerResponseModule.json",
+          "utf-8"
+        ),
+      }
     );
-    const errorModuleArnParts = errorModule.attrContactFlowModuleArn.split("/");
-    const timeoutModuleArnParts =
-      timeoutModule.attrContactFlowModuleArn.split("/");
 
+    // Error Module
+    this.errorModule = new connect.CfnContactFlowModule(this, "errorModule", {
+      instanceArn: this.connectInstance.attrArn,
+      name: "ErrorHandlingModule",
+      description: "Module for Error Handling",
+      content: fs.readFileSync(
+        "../amazon-connect-flows/ErrorModule.json",
+        "utf-8"
+      ),
+    });
+
+    // Outbound Call Flow
     this.outboundContactFlow = new connect.CfnContactFlow(
       this,
       "OutboundCallFlow",
@@ -416,27 +435,10 @@ export class AmazonConnectConstruct extends Construct {
         name: "Outbound Call Flow",
         type: "CONTACT_FLOW",
         description: "Outbound Call Contact Flow",
-        content: outboundCallFlowJson
-          .replace(
-            /<<NAME_BOT_ALIAS_ARN>>/g,
-            props.lexStack.nameIdBotAlias.attrArn
-          )
-          .replace(
-            /<<MAIN_BOT_ALIAS_ARN>>/g,
-            props.lexStack.connectBotAlias.attrArn
-          )
-          .replace(
-            /<<MODIFY_BOT_ALIAS_ARN>>/g,
-            props.lexStack.modifyBotAlias.attrArn
-          )
-          .replace(
-            /<<ERROR_MODULE_ID>>/g,
-            errorModuleArnParts[errorModuleArnParts.length - 1]
-          )
-          .replace(
-            /<<TIMEOUT_MODULE_ID>>/g,
-            timeoutModuleArnParts[timeoutModuleArnParts.length - 1]
-          ),
+        content: fs.readFileSync(
+          "../amazon-connect-flows/OutboundCallFlow.json",
+          "utf-8"
+        ),
       }
     );
 
@@ -473,18 +475,4 @@ export class AmazonConnectConstruct extends Construct {
       }
     );
   }
-}
-
-function readAndReplaceLambdaArn(path: string, props: IGlobalProps): string {
-  let inputStr = fs.readFileSync(path, "utf-8");
-  return inputStr
-    .replace(/<<PROJECT_NAME>>/g, props.projectName)
-    .replace(
-      /<<REGION>>/g,
-      props.env?.region == undefined ? "us-east-1" : props.env.region
-    )
-    .replace(
-      /<<ACCOUNT>>/g,
-      props.env?.account == undefined ? "XXX" : props.env.account
-    );
 }

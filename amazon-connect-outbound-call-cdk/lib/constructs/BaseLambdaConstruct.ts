@@ -24,9 +24,7 @@ import {
   TRANSCRIBE_REQUEST_QUEUE_NAME,
 } from "../Constants";
 
-export interface BaseLambdaConstructProps extends IGlobalProps {
-  amazonConnectbucket: cdk.aws_s3.Bucket;
-}
+export interface BaseLambdaConstructProps extends IGlobalProps {}
 
 export class BaseLambdaConstruct extends Construct {
   protected awsPowerToolsLayer: cdk.aws_lambda.ILayerVersion;
@@ -46,7 +44,6 @@ export class BaseLambdaConstruct extends Construct {
   protected cloudwatchLambdaPolicy: cdk.aws_iam.PolicyDocument;
   protected dynamoDbLambdaPolicy: cdk.aws_iam.PolicyDocument;
   protected sqsLambdaPolicy: cdk.aws_iam.PolicyDocument;
-  protected s3LambdaPolicy: cdk.aws_iam.PolicyDocument;
 
   constructor(scope: Construct, id: string, props: BaseLambdaConstructProps) {
     super(scope, id);
@@ -113,19 +110,6 @@ export class BaseLambdaConstruct extends Construct {
             `arn:aws:sqs:${props.env?.region}:${props.env?.account}:${OUTBOUND_CALL_QUEUE_NAME}`,
             `arn:aws:sqs:${props.env?.region}:${props.env?.account}:${RECORDING_REQUEST_QUEUE_NAME}`,
             `arn:aws:sqs:${props.env?.region}:${props.env?.account}:${TRANSCRIBE_REQUEST_QUEUE_NAME}`,
-          ],
-        }),
-      ],
-    });
-
-    this.s3LambdaPolicy = new iam.PolicyDocument({
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ["s3:PutObjectAcl", "s3:PutObject", "s3:GetObject"],
-          resources: [
-            props.amazonConnectbucket.bucketArn,
-            `${props.amazonConnectbucket.bucketArn}/*`,
           ],
         }),
       ],

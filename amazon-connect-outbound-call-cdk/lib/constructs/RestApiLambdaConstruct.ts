@@ -25,13 +25,8 @@ import {
   OUTBOUND_CALL_LOGS_TABLE,
   OUTBOUND_CALL_QUEUE_NAME,
 } from "../Constants";
-import { SqsConstruct } from "./SqsConstruct";
-import { NagSuppressions } from "cdk-nag";
-import * as cdk from "aws-cdk-lib";
 
-interface RestApiLambdaConstructProps extends BaseLambdaConstructProps {
-  queueConstruct: SqsConstruct;
-}
+interface RestApiLambdaConstructProps extends BaseLambdaConstructProps {}
 
 export class RestApiLambdaConstruct extends BaseLambdaConstruct {
   getCallsRestApiLamba: lambda.Function;
@@ -51,26 +46,8 @@ export class RestApiLambdaConstruct extends BaseLambdaConstruct {
         cloudwatchLambdaPolicy: this.cloudwatchLambdaPolicy,
         sqsLambdaPolicy: this.sqsLambdaPolicy,
         dynamoDbLambdaPolicy: this.dynamoDbLambdaPolicy,
-        s3LambdaPolicy: this.s3LambdaPolicy,
       },
     });
-
-    // -- CDK Nag Surpression
-    NagSuppressions.addResourceSuppressions(
-      restApiLambdaRole,
-      [
-        {
-          id: "AwsSolutions-IAM5",
-          reason: "Allows access to S3 Bucket",
-          appliesTo: [
-            `Resource::<${cdk.Stack.of(this).getLogicalId(
-              props.amazonConnectbucket.node.defaultChild as cdk.CfnResource
-            )}.Arn>/*`,
-          ],
-        },
-      ],
-      true
-    );
 
     this.getCallsRestApiLamba = new lambda.Function(
       this,

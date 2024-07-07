@@ -97,6 +97,15 @@ export class LexStack extends cdk.Stack {
             }),
           ],
         }),
+        pollyPolicy: new iam.PolicyDocument({
+          statements: [
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: ["polly:SyntesizeSpeech"],
+              resources: ["*"],
+            }),
+          ],
+        }),
         kmsPolicy: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({

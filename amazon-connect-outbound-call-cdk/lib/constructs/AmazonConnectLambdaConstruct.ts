@@ -40,29 +40,23 @@ import * as events from "aws-cdk-lib/aws-events";
 import { Key } from "aws-cdk-lib/aws-kms";
 
 interface AmazonConnectLambdaConstructProps extends BaseLambdaConstructProps {
+  amazonConnectbucket: cdk.aws_s3.Bucket;
   connectConstruct: AmazonConnectConstruct;
-  queueConstruct: SqsConstruct;
   connectEventBridgeRule: events.Rule;
+  queueConstruct: SqsConstruct;
   encryptionKey: Key;
 }
 
 export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
+  updateCallLogsLambda: lambda.Function;
+  triggerCallRecordingLambda: lambda.Function;
+
   constructor(
     scope: Construct,
     id: string,
     props: AmazonConnectLambdaConstructProps
   ) {
     super(scope, id, props);
-
-    const connectLambdaPolicy = new iam.PolicyDocument({
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ["connect:StartOutboundVoiceContact"],
-          resources: [`${props.connectConstruct.connectInstance.attrArn}/*`],
-        }),
-      ],
-    });
 
     const kvsLambdaPolicy = new iam.PolicyDocument({
       statements: [
@@ -74,6 +68,19 @@ export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
             "kinesisvideo:Describe*",
           ],
           resources: [`*`],
+        }),
+      ],
+    });
+
+    const s3LambdaPolicy = new iam.PolicyDocument({
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ["s3:PutObjectAcl", "s3:PutObject", "s3:GetObject"],
+          resources: [
+            props.amazonConnectbucket.bucketArn,
+            `${props.amazonConnectbucket.bucketArn}/*`,
+          ],
         }),
       ],
     });
@@ -113,10 +120,9 @@ export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
         description: "Allows Outbound Call Lambdas to invoke AWS Services",
         inlinePolicies: {
           cloudwatchLambdaPolicy: this.cloudwatchLambdaPolicy,
-          amazonConnectLambdaPolicy: connectLambdaPolicy,
           dynamoDbLambdaPolicy: this.dynamoDbLambdaPolicy,
           sqsLambdaPolicy: this.sqsLambdaPolicy,
-          s3LambdaPolicy: this.s3LambdaPolicy,
+          s3LambdaPolicy: s3LambdaPolicy,
           kvsLambdaPolicy: kvsLambdaPolicy,
           kmsLambdaPolicy: kmsLambdaPolicy,
           transcribeLambdaPolicy: transcribeLambdaPolicy,
@@ -124,56 +130,10 @@ export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
       }
     );
 
-    // Outbound Call Listener Lambda
-    const outboundCallRequestLambda = new lambda.Function(
-      this,
-      "OutboundCallRequestLambda",
-      {
-        ...this.lambdaDefaults,
-        functionName: `${props.projectName}-OutboundCallRequestLambda`,
-        description: `AWS Lambda Function that listent to SQS Queue and initiate Amazon Connect Outbound Call`,
-        code: lambda.Code.fromAsset("../lambdas/OutboundCallRequestListener"),
-        handler: "OutboundCallRequestListener.lambda_handler",
-        role: outboundCallLambdaRole,
-        logGroup: new logs.LogGroup(this, `OutboundCallRequestListenerLogs`, {
-          logGroupName: `${props.projectName}-OutboundCallRequestLambda`,
-          retention: logs.RetentionDays.FIVE_DAYS,
-          removalPolicy: RemovalPolicy.DESTROY,
-        }),
-        environment: {
-          ...this.lambdaDefaults.environment,
-          CONNECT_INSTANCE: props.connectConstruct.connectInstance.attrArn,
-          CONTACT_FLOW_ID:
-            props.connectConstruct.outboundContactFlow.attrContactFlowArn,
-          QUEUE_ID: props.connectConstruct.outboundCallQueue.attrQueueArn,
-          TABLE_NAME: OUTBOUND_CALL_LOGS_TABLE,
-        },
-      }
-    );
-
-    props.queueConstruct.outboundCallSqsQueue.grantConsumeMessages(
-      outboundCallRequestLambda
-    );
-    outboundCallRequestLambda.addEventSource(
-      new SqsEventSource(props.queueConstruct.outboundCallSqsQueue)
-    );
-
     // -- CDK Nag Surpression
     NagSuppressions.addResourceSuppressions(
       outboundCallLambdaRole,
       [
-        {
-          id: "AwsSolutions-IAM5",
-          reason: "Allows access to Amazon Connect",
-          appliesTo: [
-            `Resource::<${cdk.Stack.of(this).getLogicalId(
-              props.connectConstruct.connectInstance as cdk.CfnResource
-            )}.Arn>/*`,
-            `Resource::<${cdk.Stack.of(this).getLogicalId(
-              props.amazonConnectbucket.node.defaultChild as cdk.CfnResource
-            )}.Arn>/*`,
-          ],
-        },
         {
           id: "AwsSolutions-IAM5",
           reason: "Allows access to S3 Bucket",
@@ -202,7 +162,7 @@ export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
     );
 
     // Update Call Logs Lambda. Invoked from Amazon Connect Flow
-    const updateCallLogsLambda = new lambda.Function(
+    this.updateCallLogsLambda = new lambda.Function(
       this,
       "updateCallLogsLambda",
       {
@@ -234,13 +194,13 @@ export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
       "updateCallLogsLambdaAssoc",
       {
         instanceId: props.connectConstruct.connectInstance.attrArn,
-        integrationArn: updateCallLogsLambda.functionArn,
+        integrationArn: this.updateCallLogsLambda.functionArn,
         integrationType: "LAMBDA_FUNCTION",
       }
     );
 
     // Lambda to trigger Call Recording. Invoked from Amazon Connect Flow
-    const triggerCallRecordingLambda = new lambda.Function(
+    this.triggerCallRecordingLambda = new lambda.Function(
       this,
       "triggerCallRecordingLambda",
       {
@@ -269,7 +229,7 @@ export class AmazonConnectLambdaConstruct extends BaseLambdaConstruct {
         "triggerCallRecordingLambdaAssoc",
         {
           instanceId: props.connectConstruct.connectInstance.attrArn,
-          integrationArn: triggerCallRecordingLambda.functionArn,
+          integrationArn: this.triggerCallRecordingLambda.functionArn,
           integrationType: "LAMBDA_FUNCTION",
         }
       );

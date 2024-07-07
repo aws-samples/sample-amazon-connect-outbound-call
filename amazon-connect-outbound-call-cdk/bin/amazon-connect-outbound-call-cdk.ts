@@ -24,6 +24,7 @@ import { MainStack } from "../lib/MainStack";
 import { suppressCdkNagRules } from "./cdk-nag-supressions";
 import { LexStack } from "../lib/LexStack";
 import { FrontEndStack } from "../lib/FrontEndStack";
+import { ConnectStack } from "../lib/ConnectStack";
 
 export interface IGlobalProps extends StackProps {
   projectName: string;
@@ -53,21 +54,44 @@ const lexStack = new LexStack(app, `${globalProps.projectName}LexStack`, {
 lexStack.addDependency(baseStack);
 suppressCdkNagRules(lexStack);
 
+// Connect Stack
+const connectStack = new ConnectStack(
+  app,
+  `${globalProps.projectName}ConnectStack`,
+  {
+    ...globalProps,
+    baseStack: baseStack,
+    lexStack: lexStack,
+    description:
+      "This stack includes resources for Amazon Connect and required Lambda functions",
+  }
+);
+connectStack.addDependency(baseStack);
+connectStack.addDependency(lexStack);
+suppressCdkNagRules(connectStack);
+
 // Main Stack
 const mainStack = new MainStack(app, `${globalProps.projectName}MainStack`, {
   ...globalProps,
-  baseStack: baseStack,
-  lexStack: lexStack,
+  connectstack: connectStack,
+  lextStack: lexStack,
+  description:
+    "This stack includes resources for integration between Web Application and Amazon Connect",
 });
-mainStack.addDependency(baseStack);
-mainStack.addDependency(lexStack);
+mainStack.addDependency(connectStack);
 suppressCdkNagRules(mainStack);
 
 // Front End Stack
 const frontEndStack = new FrontEndStack(
   app,
   `${globalProps.projectName}FrontendStack`,
-  { ...globalProps, mainStack: mainStack, baseStack: baseStack }
+  {
+    ...globalProps,
+    mainStack: mainStack,
+    baseStack: baseStack,
+    description:
+      "This stack includes resources for Web Application for triggering outbound call",
+  }
 );
 frontEndStack.addDependency(mainStack);
 frontEndStack.addDependency(baseStack);
