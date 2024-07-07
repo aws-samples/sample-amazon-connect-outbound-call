@@ -57,19 +57,18 @@ def getCalls():
 
     for item in records['Items']:
         record = {
-            'messageId': item['messageId'],
-            'contactId': item['contactId'],
-            'phoneNumber': item['phoneNumber'],
-            'language': item['language'],
-            'requestTime': item['requestTime'] if 'requestTime' in item else '',
-            'callDuration': item['callDuration'] if 'callDuration' in item else '0',
-            'firstName': item['firstName'] if 'firstName' in item else '',
-            'lastName': item['lastName'] if 'lastName' in item else '',
-            'response': item['result'] if 'result' in item else '',
-            'status': item['status'] if 'status' in item else '',
-            'connectStatus': item['connectStatus'] if 'connectStatus' in item else '',
+            'messageId':  item.get('messageId', ''),
+            'contactId': item.get('contactId', ''),
+            'phoneNumber': item.get('phoneNumber', ''),
+            'language': item.get('language', ''),
+            'requestTime': item.get('requestTime', ''),
+            'callDuration': item.get('callDuration', '0'),
+            'firstName': item.get('firstName', ''),
+            'lastName': item.get('lastName', ''),
+            'response': item.get('result', ''),
+            'status': item.get('status', ''),
             'audioFile': getS3PresignedUrl(item['recordingBucket'], item['recordingKey']) if 'recordingKey' in item else '',
-            'transcribe': item['transcribeText'] if 'transcribeText' in item else ''
+            'transcribe': item.get('transcribeText', '')
         }
         response.append(record)
 
