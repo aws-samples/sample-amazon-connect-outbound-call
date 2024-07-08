@@ -15,10 +15,7 @@ permissions and limitations under the License.
 import {
   Button,
   FormControl,
-  FormControlLabel,
   FormLabel,
-  Radio,
-  RadioGroup,
   TextField,
   Paper,
   Switch,
@@ -41,14 +38,6 @@ import {
 import axios from "axios";
 import { Auth } from "aws-amplify";
 import { useEffect } from "react";
-const IDD_List: string[] = ["+65", "+61", "+852"];
-
-// let credentials = null
-// await setupAmplify().then((creds) => {
-//   console.log(`Amplify configured with ${JSON.stringify(creds)}`);
-//   credentials = creds
-// })
-// Auth.configure(credentials);
 
 let session: any = null;
 
@@ -62,8 +51,8 @@ function generateUUID(): string {
 
 const callbackForm: ICallbackForm = {
   messageId: generateUUID(),
-  prefix: IDD_List[0],
-  phoneNumber: " ",
+  countryCode: "+1",
+  phoneNumber: "",
   accountName: "Silver Lake",
   instructionDate: date_TO_String(new Date()),
   valueDate: date_TO_String(new Date()),
@@ -101,7 +90,7 @@ const callRequest: ICallRequest = {
  * @param aReq
  */
 export function copyForm(aForm: ICallbackForm, aReq: ICallRequest) {
-  aReq.phoneNumber = aForm.prefix.concat(aForm.phoneNumber);
+  aReq.phoneNumber = aForm.countryCode.concat(aForm.phoneNumber);
   aReq.details.companyName = aForm.accountName;
   aReq.details.instructionDate = aForm.instructionDate;
   aReq.details.valueDate = aForm.valueDate;
@@ -130,11 +119,8 @@ export default function Dialer() {
   }, []);
 
   const [formData, setFormData] = React.useState<ICallbackForm>(callbackForm);
-
   const [payload, setPayload] = React.useState<String>(jsonString);
-
   const [showPayload, setShowPayload] = React.useState("block");
-
   const [checked, setChecked] = React.useState(true);
 
   const updatePayload = (value: ICallbackForm) => {
@@ -252,21 +238,14 @@ export default function Dialer() {
                   <FormLabel>Country Code</FormLabel>
                 </Grid>
                 <Grid item xs={6}>
-                  <RadioGroup
-                    name="prefix"
-                    row
-                    defaultValue={IDD_List[0]}
+                  <TextField
+                    name="countryCode"
+                    id="countryCode"
+                    type="text"
+                    size="small"
                     onChange={onFormChange}
-                  >
-                    {IDD_List.map((countryCode) => (
-                      <FormControlLabel
-                        value={countryCode}
-                        control={<Radio />}
-                        label={countryCode}
-                        key={countryCode}
-                      />
-                    ))}
-                  </RadioGroup>
+                    value={formData.countryCode}
+                  ></TextField>
                 </Grid>
                 <Grid item xs={6}>
                   <FormLabel>Message Id</FormLabel>

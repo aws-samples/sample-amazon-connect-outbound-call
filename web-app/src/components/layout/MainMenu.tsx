@@ -20,11 +20,11 @@ import { setupAmplify } from "../../aws-exports";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
-let credentials = null
+let credentials = null;
 await setupAmplify().then((creds) => {
   console.log(`Amplify configured with ${JSON.stringify(creds)}`);
-  credentials = creds
-})
+  credentials = creds;
+});
 Auth.configure(credentials);
 
 export default function MainMenu() {
@@ -89,7 +89,7 @@ export default function MainMenu() {
   );
 
   return (
-    <Box sx={{ bgcolor: "gray", flexGrow: 1 }}>
+    <Box sx={{ bgcolor: "#232f3e", flexGrow: 1 }}>
       <AppBar position="static"></AppBar>
       <Drawer
         anchor={"left"}
@@ -104,15 +104,21 @@ export default function MainMenu() {
           edge="start"
           color="inherit"
           aria-label="menu"
-          sx={{ mr: 2 }}
+          sx={{ mr: 2, color: "white" }}
           onClick={toggleDrawer("left", true)}
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, color: "white" }}
+        >
           Amazon Connect Outbound Call Prototype
         </Typography>
-        <Button color="inherit">{uname}</Button>
+        <Button color="inherit" sx={{ color: "white" }}>
+          {uname}
+        </Button>
       </Toolbar>
     </Box>
   );

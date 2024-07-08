@@ -25,7 +25,7 @@ export interface ICallRequest {
 
 export interface ICallbackForm {
   messageId: string;
-  prefix: string;
+  countryCode: string;
   phoneNumber: string;
   accountName: string;
   instructionDate: string;

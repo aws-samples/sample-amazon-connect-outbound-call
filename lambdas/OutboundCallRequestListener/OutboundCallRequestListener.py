@@ -77,7 +77,7 @@ def lambda_handler(event, context):
 
         # Call Amazon Connect
         callResponse = connectClient.start_outbound_voice_contact(
-            DestinationPhoneNumber=payload['phoneNumber'],
+            DestinationPhoneNumber=payload['phoneNumber'].strip(),
             ContactFlowId=contactFlowId,
             InstanceId=connectInstance,
             QueueId=queueId,
