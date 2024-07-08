@@ -26,10 +26,14 @@ import { CloudFrontConstruct } from "./constructs/CloudFrontConstruct";
 import { ApiGwConstruct } from "./constructs/ApiGwConstruct";
 import * as s3Deploy from "aws-cdk-lib/aws-s3-deployment";
 import * as path from "path";
+import { WafConstruct } from "./constructs/WafConstruct";
+import * as wafv2 from "aws-cdk-lib/aws-wafv2";
+import { WafStack } from "./WafStack";
 
 interface FrontEndStackProps extends IGlobalProps {
   baseStack: BaseStack;
   mainStack: MainStack;
+  // wafStack: WafStack;
 }
 
 export class FrontEndStack extends cdk.Stack {
@@ -68,12 +72,27 @@ export class FrontEndStack extends cdk.Stack {
       restApiLambdaConstruct: restApiLambdaConstruct,
     });
 
+    // Create WAV
+    const apiWafConstruct = new WafConstruct(this, "ApiWAF", {
+      ...props,
+      id: "RestApiWaf",
+      description: "WAF for API Gateway",
+      scope: "REGIONAL",
+    });
+
+    // Associate the WAF Web ACL with the API Gateway
+    new wafv2.CfnWebACLAssociation(this, "RestApiWebAclAssociation", {
+      resourceArn: apiGw.restApi.deploymentStage.stageArn,
+      webAclArn: apiWafConstruct.webAcl.attrArn,
+    });
+
     // CloudFront Distribution
     const cfConstruct = new CloudFrontConstruct(this, "CloudFront", {
       ...props,
       webappBucket: webAppBucket,
       accessLogBucket: props.baseStack.loggingBucket,
       apigw: apiGw.restApi,
+      // webAcl: props.wafStack.webAcl,
     });
 
     // Deploy the React app build output to the S3 bucket

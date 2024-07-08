@@ -25,6 +25,7 @@ import { suppressCdkNagRules } from "./cdk-nag-supressions";
 import { LexStack } from "../lib/LexStack";
 import { FrontEndStack } from "../lib/FrontEndStack";
 import { ConnectStack } from "../lib/ConnectStack";
+import { WafStack } from "../lib/WafStack";
 
 export interface IGlobalProps extends StackProps {
   projectName: string;
@@ -81,6 +82,15 @@ const mainStack = new MainStack(app, `${globalProps.projectName}MainStack`, {
 mainStack.addDependency(connectStack);
 suppressCdkNagRules(mainStack);
 
+// Create WAF for CF in us-east-1
+const cfStack = new WafStack(app, `${globalProps.projectName}WafStack`, {
+  ...globalProps,
+  env: { region: "us-east-1" },
+  crossRegionReferences: true,
+  description:
+    "This stack includes resources for WAF for CloudFront Distribution",
+});
+
 // Front End Stack
 const frontEndStack = new FrontEndStack(
   app,
@@ -89,12 +99,15 @@ const frontEndStack = new FrontEndStack(
     ...globalProps,
     mainStack: mainStack,
     baseStack: baseStack,
+    // wafStack: cfStack,
+    crossRegionReferences: true,
     description:
       "This stack includes resources for Web Application for triggering outbound call",
   }
 );
 frontEndStack.addDependency(mainStack);
 frontEndStack.addDependency(baseStack);
+frontEndStack.addDependency(cfStack);
 suppressCdkNagRules(frontEndStack);
 
 cdk.Tags.of(app).add("Project", globalProps.projectName);

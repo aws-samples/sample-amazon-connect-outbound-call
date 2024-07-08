@@ -41,6 +41,10 @@ export const suppressCdkNagRules = (stack: cdk.Stack) => {
           `Policy::arn:<AWS::Partition>:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs`,
         ],
       },
+      {
+        id: "AwsSolutions-L1",
+        reason: "Using AWS Managed Services",
+      },
     ],
     true
   );

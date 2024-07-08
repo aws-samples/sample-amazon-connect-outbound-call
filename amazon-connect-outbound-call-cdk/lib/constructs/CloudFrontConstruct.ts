@@ -13,7 +13,6 @@ express or implied. See the License for the specific language governing
 permissions and limitations under the License.
 */
 import { Construct } from "constructs";
-
 import * as cognito from "aws-cdk-lib/aws-cognito";
 import { Duration } from "aws-cdk-lib";
 import { IGlobalProps } from "../../bin/amazon-connect-outbound-call-cdk";
@@ -22,6 +21,7 @@ import * as cf from "aws-cdk-lib/aws-cloudfront";
 import * as cdk from "aws-cdk-lib";
 import * as apigw from "aws-cdk-lib/aws-apigateway";
 import { NagSuppressions } from "cdk-nag/lib/nag-suppressions";
+import * as cr from "aws-cdk-lib/custom-resources";
 
 interface WebAppConstructProps extends IGlobalProps {
   accessLogBucket: s3.Bucket;
@@ -49,6 +49,23 @@ export class CloudFrontConstruct extends Construct {
         originAccessIdentity: originAccessIdentity,
       }
     );
+
+    // Get the WebACL ARN
+    const getParameter = new cr.AwsCustomResource(this, "GetParameter", {
+      onUpdate: {
+        // will also be called for a CREATE event
+        service: "SSM",
+        action: "GetParameter",
+        parameters: {
+          Name: `${props.projectName}_CF_WebACL_ARN`,
+        },
+        physicalResourceId: cr.PhysicalResourceId.of(Date.now().toString()), // Update physical id to always fetch the latest version
+        region: "us-east-1",
+      },
+      policy: cr.AwsCustomResourcePolicy.fromSdkCalls({
+        resources: cr.AwsCustomResourcePolicy.ANY_RESOURCE,
+      }),
+    });
 
     // Create CloudFront Distribution
     this.cfDistribution = new cf.Distribution(this, `CloudfrontDistribution`, {
@@ -80,14 +97,13 @@ export class CloudFrontConstruct extends Construct {
         },
       ],
       defaultRootObject: "index.html",
-      // webAclId: props.webAclArn,
       minimumProtocolVersion: cf.SecurityPolicyProtocol.TLS_V1_2_2021, // Required by security
       enableLogging: true,
       logBucket: props.accessLogBucket,
       logFilePrefix: "cloudfront-logs/",
       priceClass: cf.PriceClass.PRICE_CLASS_100,
-      //   domainNames: [props.domainName],
-      //   certificate: certificate,
+      webAclId: getParameter.getResponseField("Parameter.Value"),
+      // webAclId: webAclArn.getParameterValue(),
     });
     this.cfDistribution.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
