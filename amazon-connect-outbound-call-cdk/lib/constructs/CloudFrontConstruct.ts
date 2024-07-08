@@ -103,7 +103,6 @@ export class CloudFrontConstruct extends Construct {
       logFilePrefix: "cloudfront-logs/",
       priceClass: cf.PriceClass.PRICE_CLASS_100,
       webAclId: getParameter.getResponseField("Parameter.Value"),
-      // webAclId: webAclArn.getParameterValue(),
     });
     this.cfDistribution.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
 
