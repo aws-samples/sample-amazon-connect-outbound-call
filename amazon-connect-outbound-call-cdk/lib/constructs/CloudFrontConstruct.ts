@@ -112,6 +112,10 @@ export class CloudFrontConstruct extends Construct {
         id: "AwsSolutions-CFR4",
         reason: "Using default SSL Certificate will have TSLv1 enabled",
       },
+      {
+        id: "AwsSolutions-CFR1",
+        reason: "No Geo Restriction is required",
+      },
     ]);
   }
 }
