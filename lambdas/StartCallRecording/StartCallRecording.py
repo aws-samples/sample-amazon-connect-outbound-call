@@ -101,7 +101,8 @@ def startKvsRecording(streamARN, startFragmentNum, contactId, requestId):
         #############################################
         # Parse current byte buffer to MKV EBML DOM like object using EBMLite
         #############################################
-        fragement_intrum_dom = schema.loads(chunk_buffer)
+        fragement_intrum_dom = schema.load(
+            fp=BytesIO(chunk_buffer), headers=True)
 
         #############################################
         #  Process a complete fragment if its arrived and send to the on_fragment_arrived callback.

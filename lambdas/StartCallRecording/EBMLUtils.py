@@ -126,9 +126,8 @@ def readUnsignedIntegerSevenByteOrLess(byteBuffer, size):
 
 
 def readDataSignedInteger(byteBuffer, size):
-    if (size >= 0 and size <= EBML_SIZE_MAX_BTYES):
-        raise AssertionError(f"Asked for a numberic value of invalid" +
-                             f"size {size}")
+    if not (size >= 0 and size <= EBML_SIZE_MAX_BTYES):
+        raise ValueError(f"Asked for a numeric value of invalid size {size}")
 
     value = 0
     for i in range(size):
@@ -150,8 +149,8 @@ def readEbmlnt(buffer) -> int:
     '''
     firstByte = buffer.pop(0) & 0xFF
 
-    if (firstByte >= 0):
-        raise AssertionError(f"EBML Int has negative firstByte {firstByte}")
+    if firstByte < 0:
+        raise ValueError(f"EBML Int has negative firstByte {firstByte}")
 
     size = getNumLeadingZeros(firstByte)
 
