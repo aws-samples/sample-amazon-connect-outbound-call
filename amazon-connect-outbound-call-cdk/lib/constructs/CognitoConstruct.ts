@@ -17,6 +17,7 @@ import { Construct } from "constructs";
 import * as cognito from "aws-cdk-lib/aws-cognito";
 import { Duration } from "aws-cdk-lib";
 import { IGlobalProps } from "../../bin/amazon-connect-outbound-call-cdk";
+import { NagSuppressions } from "cdk-nag";
 
 interface CognitoConstructProps extends IGlobalProps {}
 
@@ -70,5 +71,12 @@ export class CognitoConstruct extends Construct {
         domainPrefix: `${props.projectName}`.toLowerCase(),
       },
     });
+
+    NagSuppressions.addResourceSuppressions(this.cognitoUserPool, [
+      {
+        id: "AwsSolutions-COG2",
+        reason: "No MFA Required for Prototype",
+      },
+    ]);
   }
 }
