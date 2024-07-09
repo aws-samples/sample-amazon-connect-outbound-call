@@ -1,5 +1,5 @@
 {
-  "name": "amazon-connect-callback",
+  "name": "amazon-connect-outbound-call-demo-ui",
   "private": true,
   "version": "0.0.0",
   "type": "module",

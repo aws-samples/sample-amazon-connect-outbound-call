@@ -13,14 +13,4 @@ export default defineConfig({
     // necessary for segment analytics lib to work
     global: {},
   },
-  server: {
-    proxy: {
-      "/api": {
-        target:
-          "https://vgqec2e3c4.execute-api.ap-southeast-1.amazonaws.com/prod",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
 });
