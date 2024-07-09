@@ -68,7 +68,7 @@ export class CognitoConstruct extends Construct {
 
     const domain = this.cognitoUserPool.addDomain("domain", {
       cognitoDomain: {
-        domainPrefix: `${props.projectName}`.toLowerCase(),
+        domainPrefix: `${this.node.getContext("demoAlias")}`.toLowerCase(),
       },
     });
 
