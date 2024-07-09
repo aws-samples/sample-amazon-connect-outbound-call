@@ -86,7 +86,7 @@ export class AmazonConnectConstruct extends Construct {
           useCustomTtsVoices: false,
         },
         identityManagementType: "CONNECT_MANAGED",
-        instanceAlias: "AmazonConnectOutboundCallInstance",
+        instanceAlias: this.node.getContext("connectInstanceAlias"),
       }
     );
 
