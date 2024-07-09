@@ -15,7 +15,6 @@ express or implied. See the License for the specific language governing
 permissions and limitations under the License.
 */
 
-import "source-map-support/register";
 import * as cdk from "aws-cdk-lib";
 import { AwsSolutionsChecks } from "cdk-nag";
 import { BaseStack } from "../lib/BaseStack";
@@ -45,12 +44,16 @@ const app = new cdk.App();
 
 const baseStack = new BaseStack(app, `${globalProps.projectName}BaseStack`, {
   ...globalProps,
+  description:
+    "This stack stack sets up a S3 bucket for logging and a Customer Master Key (CMK) in AWS Key Management Service (KMS).",
 });
 
 // Lex Stack
 const lexStack = new LexStack(app, `${globalProps.projectName}LexStack`, {
   ...globalProps,
   baseStack: baseStack,
+  description:
+    "This stack setup Amazon Lex resources for handling customer interaction",
 });
 lexStack.addDependency(baseStack);
 suppressCdkNagRules(lexStack);
@@ -64,7 +67,7 @@ const connectStack = new ConnectStack(
     baseStack: baseStack,
     lexStack: lexStack,
     description:
-      "This stack includes resources for Amazon Connect and required Lambda functions",
+      "This stack setup Amazon Connect resources and required Lambda functions",
   }
 );
 connectStack.addDependency(baseStack);
