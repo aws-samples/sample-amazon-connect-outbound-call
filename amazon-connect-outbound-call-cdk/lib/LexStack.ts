@@ -86,7 +86,7 @@ export class LexStack extends cdk.Stack {
               effect: iam.Effect.ALLOW,
               actions: [
                 "s3:PutObjectAcl",
-                "s3:PutObjec",
+                "s3:PutObject",
                 "s3:ListBucket",
                 "s3:GetObject",
               ],
@@ -101,7 +101,7 @@ export class LexStack extends cdk.Stack {
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              actions: ["polly:SyntesizeSpeech"],
+              actions: ["polly:SynthesizeSpeech"],
               resources: ["*"],
             }),
           ],
