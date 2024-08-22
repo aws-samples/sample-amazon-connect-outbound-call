@@ -102,7 +102,7 @@ const frontEndStack = new FrontEndStack(
     ...globalProps,
     mainStack: mainStack,
     baseStack: baseStack,
-    // wafStack: cfStack,
+    connectStack: connectStack,
     crossRegionReferences: true,
     description:
       "This stack includes resources for Web Application for triggering outbound call",

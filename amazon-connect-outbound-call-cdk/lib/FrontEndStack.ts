@@ -29,11 +29,12 @@ import * as path from "path";
 import { WafConstruct } from "./constructs/WafConstruct";
 import * as wafv2 from "aws-cdk-lib/aws-wafv2";
 import { WafStack } from "./WafStack";
+import { ConnectStack } from "./ConnectStack";
 
 interface FrontEndStackProps extends IGlobalProps {
   baseStack: BaseStack;
   mainStack: MainStack;
-  // wafStack: WafStack;
+  connectStack: ConnectStack;
 }
 
 export class FrontEndStack extends cdk.Stack {
@@ -62,6 +63,7 @@ export class FrontEndStack extends cdk.Stack {
       "RestApiLambdas",
       {
         ...props,
+        recordingBucket: props.connectStack.amazonConnectbucket,
       }
     );
 

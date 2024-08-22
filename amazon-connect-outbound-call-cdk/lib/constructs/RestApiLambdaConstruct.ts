@@ -13,20 +13,25 @@ express or implied. See the License for the specific language governing
 permissions and limitations under the License.
 */
 import { Construct } from "constructs";
+import * as cdk from "aws-cdk-lib";
 import {
   BaseLambdaConstruct,
   BaseLambdaConstructProps,
 } from "./BaseLambdaConstruct";
+import { NagSuppressions } from "cdk-nag";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import { RemovalPolicy } from "aws-cdk-lib";
 import * as logs from "aws-cdk-lib/aws-logs";
+import * as s3 from "aws-cdk-lib/aws-s3";
 import {
   OUTBOUND_CALL_LOGS_TABLE,
   OUTBOUND_CALL_QUEUE_NAME,
 } from "../Constants";
 
-interface RestApiLambdaConstructProps extends BaseLambdaConstructProps {}
+interface RestApiLambdaConstructProps extends BaseLambdaConstructProps {
+  recordingBucket: s3.Bucket;
+}
 
 export class RestApiLambdaConstruct extends BaseLambdaConstruct {
   getCallsRestApiLamba: lambda.Function;
@@ -38,6 +43,19 @@ export class RestApiLambdaConstruct extends BaseLambdaConstruct {
   ) {
     super(scope, id, props);
 
+    const s3LambdaPolicy = new iam.PolicyDocument({
+      statements: [
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ["s3:PutObjectAcl", "s3:PutObject", "s3:GetObject"],
+          resources: [
+            props.recordingBucket.bucketArn,
+            `${props.recordingBucket.bucketArn}/*`,
+          ],
+        }),
+      ],
+    });
+
     // Rest API Lambdas
     const restApiLambdaRole = new iam.Role(this, "RestAPI Lambda Role", {
       assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
@@ -46,6 +64,7 @@ export class RestApiLambdaConstruct extends BaseLambdaConstruct {
         cloudwatchLambdaPolicy: this.cloudwatchLambdaPolicy,
         sqsLambdaPolicy: this.sqsLambdaPolicy,
         dynamoDbLambdaPolicy: this.dynamoDbLambdaPolicy,
+        s3LambdaPolicy: s3LambdaPolicy,
       },
     });
 
@@ -93,6 +112,22 @@ export class RestApiLambdaConstruct extends BaseLambdaConstruct {
           removalPolicy: RemovalPolicy.DESTROY,
         }),
       }
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      [restApiLambdaRole],
+      [
+        {
+          id: "AwsSolutions-IAM5",
+          reason: "Allow access to S3 Bucket",
+          appliesTo: [
+            `Resource::<${cdk.Stack.of(this).getLogicalId(
+              props.recordingBucket.node.defaultChild as cdk.CfnResource
+            )}.Arn>/*`,
+          ],
+        },
+      ],
+      true
     );
   }
 }
