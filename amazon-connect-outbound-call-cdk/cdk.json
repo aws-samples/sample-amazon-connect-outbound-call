@@ -16,7 +16,7 @@
   },
   "context": {
     "admin-password": "Password123",
-    "demoAlias": "ConnectOutboundCallDemo",
+    "demoAlias": "ConnectOutboundCallDemo123456",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": ["aws", "aws-cn"],

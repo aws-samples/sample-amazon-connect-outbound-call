@@ -10,9 +10,9 @@ This repository contains solutions that demonstrate how to integrate Amazon Conn
 
 To build and deploy this prototype the following tools are required.
 
-1. Node.js >= 20,18.0
+1. Node.js >= 20
 1. npm >= 18
-1. TypeScript >= 5.6.2
+1. TypeScript >= 5.6
 1. Python3 >= 3.12
 
 ## Prerequisites
