@@ -1,6 +1,8 @@
 # Amazon Connect Outbound Call
 
-This repository contains solutions that demonstrate how to integrate Amazon Connect with AWS Lambda, Amazon LEX and Amazon Transcribe to automatically initiate a call to customer, gather necessary information through a conversation and store both the audio and transciption of the call for future needs
+This repository contains solutions that demonstrate how to integrate Amazon Connect with AWS Lambda, Amazon Lex and Amazon Transcribe to automatically initiate a call to customer, gather necessary information through a conversation and store both the audio and transcription of the call for future needs.
+
+Refer to the associated blog post for more information.
 
 ## Architecture
 
@@ -140,13 +142,13 @@ To deploy the code, run:
 ```
 cd amazon-connect-outbound-call-cdk
 npm install
-cdk deploy --all
+cdk deploy --all --require-approval never
 ```
-
+ 
 ### Destroy
 
 To clean up the environment, run:
 
 ```
-cdk destroy --all
+cdk destroy --all --require-approval never
 ```
