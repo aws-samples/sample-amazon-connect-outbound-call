@@ -572,5 +572,19 @@ export class LexStack extends cdk.Stack {
         ],
       },
     });
+
+    const LEX_CUSTOMER_NAME_BOT_ARN = new cdk.CfnOutput(
+      this,
+      "LexCustNameBotArn",
+      {
+        value: this.nameIdBotAlias.attrArn,
+      }
+    );
+    const LEX_MAIN_BOT_ARN = new cdk.CfnOutput(this, "LexMainBotArn", {
+      value: this.connectBotAlias.attrArn,
+    });
+    const LEX_MODIFY_BOT_ARN = new cdk.CfnOutput(this, "LexModifyBotArn", {
+      value: this.modifyBotAlias.attrArn,
+    });
   }
 }

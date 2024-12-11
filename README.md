@@ -144,7 +144,18 @@ cd amazon-connect-outbound-call-cdk
 npm install
 cdk deploy --all --require-approval never
 ```
- 
+
+#### Updating Amazon Connect Flow with Lex ARN
+
+1. Go to Amazon Connect Console and click on the Access URL, you will be presented with Amazon Connect Login Screen
+1. Type the username admin and the password that you set on cdk.json earlier.
+1. Click on Routing menu on the left and choose Flows, then click on Modules
+1. Click on getCustNameFlowModule, click on “Ask for Customer Name” block to edit. On the Lex Box, choose Select a Lex Bot. Choose GetCustomerName Bot and NameIdBotAlias for the alias
+1. Click on the Save button on the top right then click Publish to publish this module
+1. Click on GetCustomerResponseModule, Click “Ask for Customer Input” block, and choose MainBot and connectBotAlias for Lex Bot Name and Alias
+1. Click on “Ask customer for modified values” block to edit, and choose ModificationBot and modifyBotAlias for Lex Bot Name and Alias
+1. Click on the Save button on the top right then click Publish to publish this module
+
 ### Destroy
 
 To clean up the environment, run:
