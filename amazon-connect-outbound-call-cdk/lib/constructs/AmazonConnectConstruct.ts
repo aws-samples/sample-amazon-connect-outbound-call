@@ -385,6 +385,17 @@ export class AmazonConnectConstruct extends Construct {
       ),
     });
 
+    // Associate Lex Name Bot with Amazon Connect
+    const lexNameBotAssoc = new connect.CfnIntegrationAssociation(
+      this,
+      "lexNameBotAssoc",
+      {
+        instanceId: this.connectInstance.attrArn,
+        integrationArn: props.lexStack.nameIdBotAlias.attrArn,
+        integrationType: "LEX_BOT",
+      }
+    );
+
     // Get Customer Name Flow Module
     this.getCustomerNameModule = new connect.CfnContactFlowModule(
       this,
@@ -400,7 +411,31 @@ export class AmazonConnectConstruct extends Construct {
       }
     );
 
-    // Get Customer Name Flow Module
+    this.getCustomerNameModule.addDependency(lexNameBotAssoc);
+
+    // Associate Lex Main Bot with Amazon Connect
+    const lexMainBotAssoc = new connect.CfnIntegrationAssociation(
+      this,
+      "lexMainBotAssoc",
+      {
+        instanceId: this.connectInstance.attrArn,
+        integrationArn: props.lexStack.connectBotAlias.attrArn,
+        integrationType: "LEX_BOT",
+      }
+    );
+
+    // Associate Lex Modify Bot with Amazon Connect
+    const lexModifyBotAssoc = new connect.CfnIntegrationAssociation(
+      this,
+      "lexModifyBotAssoc",
+      {
+        instanceId: this.connectInstance.attrArn,
+        integrationArn: props.lexStack.modifyBotAlias.attrArn,
+        integrationType: "LEX_BOT",
+      }
+    );
+
+    // Get Customer Response Flow Module
     this.getCustomerResponseModule = new connect.CfnContactFlowModule(
       this,
       "getCustomerResponseModule",
@@ -414,6 +449,9 @@ export class AmazonConnectConstruct extends Construct {
         ),
       }
     );
+
+    this.getCustomerResponseModule.addDependency(lexMainBotAssoc);
+    this.getCustomerResponseModule.addDependency(lexModifyBotAssoc);
 
     // Error Module
     this.errorModule = new connect.CfnContactFlowModule(this, "errorModule", {
@@ -442,37 +480,8 @@ export class AmazonConnectConstruct extends Construct {
       }
     );
 
-    // Associate Lex Name Bot with Amazon Connect
-    const lexNameBotAssoc = new connect.CfnIntegrationAssociation(
-      this,
-      "lexNameBotAssoc",
-      {
-        instanceId: this.connectInstance.attrArn,
-        integrationArn: props.lexStack.nameIdBotAlias.attrArn,
-        integrationType: "LEX_BOT",
-      }
-    );
-
-    // Associate Lex Main Bot with Amazon Connect
-    const lexMainBotAssoc = new connect.CfnIntegrationAssociation(
-      this,
-      "lexMainBotAssoc",
-      {
-        instanceId: this.connectInstance.attrArn,
-        integrationArn: props.lexStack.connectBotAlias.attrArn,
-        integrationType: "LEX_BOT",
-      }
-    );
-
-    // Associate Lex Modify Bot with Amazon Connect
-    const lexModifyBotAssoc = new connect.CfnIntegrationAssociation(
-      this,
-      "lexModifyBotAssoc",
-      {
-        instanceId: this.connectInstance.attrArn,
-        integrationArn: props.lexStack.modifyBotAlias.attrArn,
-        integrationType: "LEX_BOT",
-      }
-    );
+    this.outboundContactFlow.addDependency(this.initModule);
+    this.outboundContactFlow.addDependency(this.getCustomerNameModule);
+    this.outboundContactFlow.addDependency(this.getCustomerResponseModule);
   }
 }
