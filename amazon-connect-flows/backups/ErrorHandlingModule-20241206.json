@@ -7,15 +7,22 @@
       "y": 22.4
     },
     "ActionMetadata": {
+      "Stop Streaming": {
+        "position": {
+          "x": 691.2,
+          "y": 22.4
+        },
+        "isFriendlyName": true
+      },
       "1d927523-88b4-4a89-ab29-3949d172e235": {
         "position": {
           "x": 922.4,
           "y": 85.6
         }
       },
-      "Stop Streaming": {
+      "Error Prompt": {
         "position": {
-          "x": 691.2,
+          "x": 464.8,
           "y": 22.4
         },
         "isFriendlyName": true
@@ -36,13 +43,6 @@
           "status": false
         },
         "useDynamic": true
-      },
-      "Error Prompt": {
-        "position": {
-          "x": 464.8,
-          "y": 22.4
-        },
-        "isFriendlyName": true
       }
     },
     "Annotations": [],
@@ -52,12 +52,6 @@
     "hash": {}
   },
   "Actions": [
-    {
-      "Parameters": {},
-      "Identifier": "1d927523-88b4-4a89-ab29-3949d172e235",
-      "Type": "DisconnectParticipant",
-      "Transitions": {}
-    },
     {
       "Parameters": {
         "MediaStreamingState": "Disabled",
@@ -85,6 +79,28 @@
       }
     },
     {
+      "Parameters": {},
+      "Identifier": "1d927523-88b4-4a89-ab29-3949d172e235",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry we are unable to process your request</speak>"
+      },
+      "Identifier": "Error Prompt",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "Stop Streaming",
+        "Errors": [
+          {
+            "NextAction": "Stop Streaming",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
       "Parameters": {
         "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
         "InvocationTimeLimitSeconds": "3",
@@ -103,22 +119,6 @@
         "Errors": [
           {
             "NextAction": "Error Prompt",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "Text": "Sorry, we are unable to process your request."
-      },
-      "Identifier": "Error Prompt",
-      "Type": "MessageParticipant",
-      "Transitions": {
-        "NextAction": "Stop Streaming",
-        "Errors": [
-          {
-            "NextAction": "Stop Streaming",
             "ErrorType": "NoMatchingError"
           }
         ]

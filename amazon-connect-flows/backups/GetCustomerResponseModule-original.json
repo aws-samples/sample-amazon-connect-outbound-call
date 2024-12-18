@@ -1,0 +1,817 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "Ask for Customer Input",
+  "Metadata": {
+    "entryPointPosition": {
+      "x": 40,
+      "y": 40
+    },
+    "ActionMetadata": {
+      "Say Error": {
+        "position": {
+          "x": 1591.2,
+          "y": 784.8
+        },
+        "isFriendlyName": true
+      },
+      "bc86253f-3cf5-4e49-8582-87c9dd292b77": {
+        "position": {
+          "x": 1868,
+          "y": 773.6
+        }
+      },
+      "08768330-2878-4b9c-b9b5-99bfee378833": {
+        "position": {
+          "x": 2152,
+          "y": 776
+        }
+      },
+      "4fe41068-c6b8-491f-9246-9a9f80c72f79": {
+        "position": {
+          "x": 1604,
+          "y": -656.8
+        }
+      },
+      "40bbfe33-cb52-40fe-bf8f-593b9ad5ade0": {
+        "position": {
+          "x": 1220,
+          "y": -690.4
+        }
+      },
+      "Update Call Logs Status": {
+        "position": {
+          "x": 381.6,
+          "y": -588.8
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "useDynamic": true
+          }
+        },
+        "dynamicMetadata": {
+          "action": false,
+          "status": false
+        },
+        "useDynamic": true
+      },
+      "Inform User has Timed Out": {
+        "position": {
+          "x": 700,
+          "y": -588
+        },
+        "isFriendlyName": true
+      },
+      "Say instruction is confirmed": {
+        "position": {
+          "x": 1339.2,
+          "y": 64
+        },
+        "isFriendlyName": true
+      },
+      "Say Instruction is Rejected": {
+        "position": {
+          "x": 1340.8,
+          "y": 325.6
+        },
+        "isFriendlyName": true
+      },
+      "6f7769dc-41f9-4604-b9fa-e9909f8948bb": {
+        "position": {
+          "x": 2844.8,
+          "y": 240.8
+        }
+      },
+      "Say modification accepted": {
+        "position": {
+          "x": 2748,
+          "y": -473.6
+        },
+        "isFriendlyName": true
+      },
+      "Update new Value": {
+        "position": {
+          "x": 2444.8,
+          "y": -476.8
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "useDynamic": true
+          }
+        },
+        "dynamicMetadata": {
+          "action": false,
+          "result": false
+        },
+        "useDynamic": true
+      },
+      "67233884-74b8-4e13-9c59-0febc654b5bc": {
+        "position": {
+          "x": 1013.6,
+          "y": -288
+        }
+      },
+      "1509dc2f-7f25-45f7-b869-0b816b592247": {
+        "position": {
+          "x": 360,
+          "y": -268
+        }
+      },
+      "825414db-d0b9-4c7e-9e9d-fd176eee656f": {
+        "position": {
+          "x": 675.2,
+          "y": -273.6
+        }
+      },
+      "Update Respond to Confirm": {
+        "position": {
+          "x": 911.2,
+          "y": 64.8
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "useDynamic": true
+          }
+        },
+        "dynamicMetadata": {
+          "action": false,
+          "result": false
+        },
+        "useDynamic": true
+      },
+      "Update Respond to Reject": {
+        "position": {
+          "x": 906.4,
+          "y": 314.4
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "useDynamic": true
+          }
+        },
+        "dynamicMetadata": {
+          "action": false,
+          "result": false
+        },
+        "useDynamic": true
+      },
+      "d1a9dd93-d6ae-4e49-bcec-69e14da5d659": {
+        "position": {
+          "x": 1395.2,
+          "y": -482.4
+        }
+      },
+      "9999c658-9681-424f-91dd-7e82aca7ef6f": {
+        "position": {
+          "x": 2147.2,
+          "y": -334.4
+        },
+        "parameters": {
+          "Attributes": {
+            "beneAccountNo": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicParams": ["beneAccountNo"]
+      },
+      "f045cee6-772a-4cfc-8b62-6fe24f99d432": {
+        "position": {
+          "x": 2136,
+          "y": -609.6
+        },
+        "parameters": {
+          "Attributes": {
+            "beneAccountNo": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicParams": ["beneAccountNo"]
+      },
+      "Update Status to Error": {
+        "position": {
+          "x": 1320.8,
+          "y": 780.8
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "useDynamic": true
+          }
+        },
+        "dynamicMetadata": {
+          "action": false,
+          "status": false
+        },
+        "useDynamic": true
+      },
+      "Ask for Customer Input": {
+        "position": {
+          "x": 353.6,
+          "y": 20.8
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LexV2Bot": {
+            "AliasArn": {
+              "useDynamic": true,
+              "useLexBotDropdown": false
+            }
+          }
+        },
+        "useDynamicLexBotArn": true,
+        "lexV2BotName": "",
+        "conditionMetadata": [
+          {
+            "id": "2fa08952-d43b-4e54-ab16-1a3dda94e07e",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "confirmInstruction"
+          },
+          {
+            "id": "ace1aa89-247e-49b5-acc9-7436f76f32ee",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "denyInstruction"
+          },
+          {
+            "id": "72d43a56-191b-4de6-836b-97fe31f697d6",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "modifyInstruction"
+          },
+          {
+            "id": "f2372386-cf8b-4466-8bf5-aad8f52e13c5",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "repeatInstruction"
+          }
+        ]
+      },
+      "Ask customer for modified values": {
+        "position": {
+          "x": 1682.4,
+          "y": -272
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LexV2Bot": {
+            "AliasArn": {
+              "useDynamic": true,
+              "useLexBotDropdown": false
+            }
+          }
+        },
+        "useDynamicLexBotArn": true,
+        "lexV2BotName": "",
+        "conditionMetadata": [
+          {
+            "id": "6bcbda34-7170-42d0-93fe-f1a1b380578d",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "modifyBeneAccountNo"
+          },
+          {
+            "id": "2d44ab35-9178-40ed-bfba-efb13d9dbb0d",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "modifyValueDate"
+          }
+        ]
+      }
+    },
+    "Annotations": [],
+    "name": "getCustomerResponseModule",
+    "description": "Flow Module for getting Customer Response",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request/speak>"
+      },
+      "Identifier": "Say Error",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "bc86253f-3cf5-4e49-8582-87c9dd292b77",
+        "Errors": [
+          {
+            "NextAction": "bc86253f-3cf5-4e49-8582-87c9dd292b77",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          {
+            "ParticipantType": "Customer",
+            "MediaDirections": ["To", "From"]
+          }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "bc86253f-3cf5-4e49-8582-87c9dd292b77",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "08768330-2878-4b9c-b9b5-99bfee378833",
+        "Errors": [
+          {
+            "NextAction": "08768330-2878-4b9c-b9b5-99bfee378833",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "08768330-2878-4b9c-b9b5-99bfee378833",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {},
+      "Identifier": "4fe41068-c6b8-491f-9246-9a9f80c72f79",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          {
+            "ParticipantType": "Customer",
+            "MediaDirections": ["To", "From"]
+          }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "40bbfe33-cb52-40fe-bf8f-593b9ad5ade0",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "4fe41068-c6b8-491f-9246-9a9f80c72f79",
+        "Errors": [
+          {
+            "NextAction": "4fe41068-c6b8-491f-9246-9a9f80c72f79",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "updateStatus",
+          "status": "TIME_OUT"
+        },
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "Update Call Logs Status",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Inform User has Timed Out",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry you have exceed the allowed time</speak>"
+      },
+      "Identifier": "Inform User has Timed Out",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "40bbfe33-cb52-40fe-bf8f-593b9ad5ade0",
+        "Errors": [
+          {
+            "NextAction": "40bbfe33-cb52-40fe-bf8f-593b9ad5ade0",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Thank you for confirming that this instruction is correct. This concludes our call-back and we will now work to process these for you. Have a great day, good bye.</speak>"
+      },
+      "Identifier": "Say instruction is confirmed",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "6f7769dc-41f9-4604-b9fa-e9909f8948bb",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Thank you, we will check internally and revert. Thank you</speak>"
+      },
+      "Identifier": "Say Instruction is Rejected",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "6f7769dc-41f9-4604-b9fa-e9909f8948bb",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "6f7769dc-41f9-4604-b9fa-e9909f8948bb",
+      "Type": "EndFlowModuleExecution",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Thank you, we have taken note of the changes and will process the instruction accordingly</speak>"
+      },
+      "Identifier": "Say modification accepted",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "6f7769dc-41f9-4604-b9fa-e9909f8948bb",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "COMPLETE",
+          "result": "MODIFY"
+        },
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "Update new Value",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say modification accepted",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LoopCount": "99"
+      },
+      "Identifier": "67233884-74b8-4e13-9c59-0febc654b5bc",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "Update Call Logs Status",
+        "Conditions": [
+          {
+            "NextAction": "Ask for Customer Input",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["ContinueLooping"]
+            }
+          },
+          {
+            "NextAction": "Update Call Logs Status",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["DoneLooping"]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LoopCount": "3"
+      },
+      "Identifier": "1509dc2f-7f25-45f7-b869-0b816b592247",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "Update Call Logs Status",
+        "Conditions": [
+          {
+            "NextAction": "825414db-d0b9-4c7e-9e9d-fd176eee656f",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["ContinueLooping"]
+            }
+          },
+          {
+            "NextAction": "Update Call Logs Status",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["DoneLooping"]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry we didn't quite get that.  Can you please repeat that for us or speak up louder as we weren’t able to capture your voice properly</speak>"
+      },
+      "Identifier": "825414db-d0b9-4c7e-9e9d-fd176eee656f",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "Ask for Customer Input",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "COMPLETE",
+          "result": "CONFIRM"
+        },
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "Update Respond to Confirm",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say instruction is confirmed",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "COMPLETE",
+          "result": "REJECT"
+        },
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "Update Respond to Reject",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say Instruction is Rejected",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LoopCount": "3"
+      },
+      "Identifier": "d1a9dd93-d6ae-4e49-bcec-69e14da5d659",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "Inform User has Timed Out",
+        "Conditions": [
+          {
+            "NextAction": "Ask customer for modified values",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["ContinueLooping"]
+            }
+          },
+          {
+            "NextAction": "Inform User has Timed Out",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["DoneLooping"]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "beneAccountNo": "$.Lex.Slots.beneAccount"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "9999c658-9681-424f-91dd-7e82aca7ef6f",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "Update new Value",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "beneAccountNo": "$.Lex.Slots.beneAccount"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "f045cee6-772a-4cfc-8b62-6fe24f99d432",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "Update new Value",
+        "Errors": [
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "updateStatus",
+          "status": "ERROR"
+        },
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "Update Status to Error",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say Error",
+        "Errors": [
+          {
+            "NextAction": "Say Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>The instruction that we've received are: Beneficiary Name $.Attributes.beneficiaryName, Beneficiary Account Number <say-as interpret-as='characters'>$.Attributes.beneficiaryAccountNumber</say-as>, Beneficiary $.Attributes.beneficiaryBank, Debit Account <say-as interpret-as='characters'>$.Attributes.orderingAccountNumber</say-as>, amount <say-as interpret-as='currency'>USD$.Attributes.amt</say-as>, value date <say-as interpret-as='date' format='mdy'>$.Attributes.valueDate</say-as>. Is this correct? Please answer with an answer of Yes or No.  You can also say Modify to amend the instruction or Repeat for me to repeat the instructions again for you.</speak>",
+        "LexV2Bot": {
+          "AliasArn": "$.Attributes.LEX_MAIN_BOT_ARN"
+        }
+      },
+      "Identifier": "Ask for Customer Input",
+      "Type": "ConnectParticipantWithLexBot",
+      "Transitions": {
+        "NextAction": "Update Status to Error",
+        "Conditions": [
+          {
+            "NextAction": "Update Respond to Confirm",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["confirmInstruction"]
+            }
+          },
+          {
+            "NextAction": "Update Respond to Reject",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["denyInstruction"]
+            }
+          },
+          {
+            "NextAction": "Ask customer for modified values",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["modifyInstruction"]
+            }
+          },
+          {
+            "NextAction": "67233884-74b8-4e13-9c59-0febc654b5bc",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["repeatInstruction"]
+            }
+          }
+        ],
+        "Errors": [
+          {
+            "NextAction": "1509dc2f-7f25-45f7-b869-0b816b592247",
+            "ErrorType": "NoMatchingCondition"
+          },
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Please say the field name: Beneficiary Account Number or Value Date</speak>",
+        "LexV2Bot": {
+          "AliasArn": "$.Attributes.LEX_MODIFY_BOT_ARN"
+        }
+      },
+      "Identifier": "Ask customer for modified values",
+      "Type": "ConnectParticipantWithLexBot",
+      "Transitions": {
+        "NextAction": "Update Status to Error",
+        "Conditions": [
+          {
+            "NextAction": "f045cee6-772a-4cfc-8b62-6fe24f99d432",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["modifyBeneAccountNo"]
+            }
+          },
+          {
+            "NextAction": "9999c658-9681-424f-91dd-7e82aca7ef6f",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["modifyValueDate"]
+            }
+          }
+        ],
+        "Errors": [
+          {
+            "NextAction": "d1a9dd93-d6ae-4e49-bcec-69e14da5d659",
+            "ErrorType": "NoMatchingCondition"
+          },
+          {
+            "NextAction": "Update Status to Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    }
+  ],
+  "Settings": {
+    "InputParameters": [],
+    "OutputParameters": [],
+    "Transitions": [
+      {
+        "DisplayName": "Success",
+        "ReferenceName": "Success",
+        "Description": ""
+      },
+      {
+        "DisplayName": "Error",
+        "ReferenceName": "Error",
+        "Description": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "c2a77b6b-1579-4870-abf1-bf45f7fa6197",
+  "Metadata": {
+    "entryPointPosition": { "x": 74.4, "y": 20 },
+    "ActionMetadata": {
+      "fe0cff31-99e2-4b4a-b1ec-ff7baa711d7b": {
+        "position": { "x": 657.6, "y": 130.4 }
+      },
+      "c2a77b6b-1579-4870-abf1-bf45f7fa6197": {
+        "position": { "x": 224, "y": 56 }
+      },
+      "7e89227a-8e96-459d-b243-379815f05ecc": {
+        "position": { "x": 452, "y": 106.4 }
+      }
+    },
+    "Annotations": [],
+    "name": "OutobundWhisper",
+    "description": "Default Whisper Flow for outbound calls.",
+    "type": "outboundWhisper",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {},
+      "Identifier": "fe0cff31-99e2-4b4a-b1ec-ff7baa711d7b",
+      "Type": "EndFlowExecution",
+      "Transitions": {}
+    },
+    {
+      "Parameters": { "RecordingBehavior": { "RecordedParticipants": [] } },
+      "Identifier": "c2a77b6b-1579-4870-abf1-bf45f7fa6197",
+      "Type": "UpdateContactRecordingBehavior",
+      "Transitions": { "NextAction": "7e89227a-8e96-459d-b243-379815f05ecc" }
+    },
+    {
+      "Parameters": { "Text": "This call is not being recorded." },
+      "Identifier": "7e89227a-8e96-459d-b243-379815f05ecc",
+      "Type": "MessageParticipant",
+      "Transitions": { "NextAction": "fe0cff31-99e2-4b4a-b1ec-ff7baa711d7b" }
+    }
+  ]
+}

@@ -3,14 +3,21 @@
   "StartAction": "Enable Logging",
   "Metadata": {
     "entryPointPosition": {
-      "x": -110.4,
-      "y": 27.2
+      "x": -115.2,
+      "y": 34.4
     },
     "ActionMetadata": {
       "Say Instruction Details": {
         "position": {
           "x": 1676.8,
-          "y": 10.4
+          "y": 11.2
+        },
+        "isFriendlyName": true
+      },
+      "Stop Streaming to KVS": {
+        "position": {
+          "x": 2140.8,
+          "y": 3.2
         },
         "isFriendlyName": true
       },
@@ -20,13 +27,6 @@
           "y": 60
         }
       },
-      "13b4db6a-3db6-47c6-a4d3-3e7c4c4a0c5c": {
-        "position": {
-          "x": 2140.8,
-          "y": 3.2
-        },
-        "isFriendlyName": false
-      },
       "Play Instruction Type": {
         "position": {
           "x": 1212.8,
@@ -34,16 +34,10 @@
         },
         "isFriendlyName": true
       },
-      "a0f370f7-9f0b-4507-afdd-8a09630f3924": {
+      "Get Customer Name": {
         "position": {
-          "x": 2392.8,
-          "y": 305.6
-        }
-      },
-      "Initialize Call": {
-        "position": {
-          "x": 256,
-          "y": 12.8
+          "x": 1445.6,
+          "y": 9.6
         },
         "isFriendlyName": true,
         "parameters": {
@@ -53,10 +47,36 @@
         },
         "useDynamic": true
       },
-      "Get Customer Name": {
+      "Get Customer Response": {
         "position": {
-          "x": 1445.6,
-          "y": 9.6
+          "x": 1904,
+          "y": 8
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "FlowModuleId": {
+            "useDynamic": true
+          }
+        },
+        "useDynamic": true
+      },
+      "a0f370f7-9f0b-4507-afdd-8a09630f3924": {
+        "position": {
+          "x": 2392.8,
+          "y": 305.6
+        }
+      },
+      "Enable Logging": {
+        "position": {
+          "x": 16,
+          "y": 32.8
+        },
+        "isFriendlyName": true
+      },
+      "Initialize Call": {
+        "position": {
+          "x": 256,
+          "y": 12.8
         },
         "isFriendlyName": true,
         "parameters": {
@@ -83,6 +103,19 @@
         },
         "useDynamic": true
       },
+      "Generic Error Handling": {
+        "position": {
+          "x": 2140.8,
+          "y": 249.6
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "FlowModuleId": {
+            "useDynamic": true
+          }
+        },
+        "useDynamic": true
+      },
       "Update Call Status to Connected": {
         "position": {
           "x": 509.6,
@@ -104,39 +137,6 @@
         "position": {
           "x": 752,
           "y": 10.4
-        },
-        "isFriendlyName": true
-      },
-      "Get Customer Response": {
-        "position": {
-          "x": 1904,
-          "y": 8
-        },
-        "isFriendlyName": true,
-        "parameters": {
-          "FlowModuleId": {
-            "useDynamic": true
-          }
-        },
-        "useDynamic": true
-      },
-      "Error Handling": {
-        "position": {
-          "x": 2140.8,
-          "y": 249.6
-        },
-        "isFriendlyName": true,
-        "parameters": {
-          "FlowModuleId": {
-            "useDynamic": true
-          }
-        },
-        "useDynamic": true
-      },
-      "Enable Logging": {
-        "position": {
-          "x": 16,
-          "y": 32.8
         },
         "isFriendlyName": true
       }
@@ -166,12 +166,6 @@
       }
     },
     {
-      "Parameters": {},
-      "Identifier": "6ee03e1d-2955-4988-9ac2-632a413942ce",
-      "Type": "DisconnectParticipant",
-      "Transitions": {}
-    },
-    {
       "Parameters": {
         "MediaStreamingState": "Disabled",
         "Participants": [
@@ -185,7 +179,7 @@
         ],
         "MediaStreamType": "Audio"
       },
-      "Identifier": "13b4db6a-3db6-47c6-a4d3-3e7c4c4a0c5c",
+      "Identifier": "Stop Streaming to KVS",
       "Type": "UpdateContactMediaStreamingBehavior",
       "Transitions": {
         "NextAction": "6ee03e1d-2955-4988-9ac2-632a413942ce",
@@ -198,6 +192,12 @@
       }
     },
     {
+      "Parameters": {},
+      "Identifier": "6ee03e1d-2955-4988-9ac2-632a413942ce",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
       "Parameters": {
         "SSML": "<speak>We have received your manual payment instruction on <say-as interpret-as='date' format='mdy'>$.Attributes.instructionDate</say-as> from fax number <say-as interpret-as='telephone'>$.Attributes.instructionFrom</say-as> for your company $.Attributes.companyName</speak>"
       },
@@ -207,29 +207,7 @@
         "NextAction": "Get Customer Name",
         "Errors": [
           {
-            "NextAction": "Error Handling",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {},
-      "Identifier": "a0f370f7-9f0b-4507-afdd-8a09630f3924",
-      "Type": "DisconnectParticipant",
-      "Transitions": {}
-    },
-    {
-      "Parameters": {
-        "FlowModuleId": "$.Attributes.INIT_MODULE_ID"
-      },
-      "Identifier": "Initialize Call",
-      "Type": "InvokeFlowModule",
-      "Transitions": {
-        "NextAction": "Update Call Status to Connected",
-        "Errors": [
-          {
-            "NextAction": "Error Handling",
+            "NextAction": "Generic Error Handling",
             "ErrorType": "NoMatchingError"
           }
         ]
@@ -245,7 +223,55 @@
         "NextAction": "Say Instruction Details",
         "Errors": [
           {
-            "NextAction": "Error Handling",
+            "NextAction": "Generic Error Handling",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "FlowModuleId": "$.Attributes.CUST_RESPONSE_MODULE_ID"
+      },
+      "Identifier": "Get Customer Response",
+      "Type": "InvokeFlowModule",
+      "Transitions": {
+        "NextAction": "Stop Streaming to KVS",
+        "Errors": [
+          {
+            "NextAction": "Generic Error Handling",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "a0f370f7-9f0b-4507-afdd-8a09630f3924",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "FlowLoggingBehavior": "Enabled"
+      },
+      "Identifier": "Enable Logging",
+      "Type": "UpdateFlowLoggingBehavior",
+      "Transitions": {
+        "NextAction": "Initialize Call"
+      }
+    },
+    {
+      "Parameters": {
+        "FlowModuleId": "$.Attributes.INIT_MODULE_ID"
+      },
+      "Identifier": "Initialize Call",
+      "Type": "InvokeFlowModule",
+      "Transitions": {
+        "NextAction": "Update Call Status to Connected",
+        "Errors": [
+          {
+            "NextAction": "Generic Error Handling",
             "ErrorType": "NoMatchingError"
           }
         ]
@@ -269,7 +295,23 @@
         "NextAction": "Play Instruction Type",
         "Errors": [
           {
-            "NextAction": "Error Handling",
+            "NextAction": "Generic Error Handling",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "FlowModuleId": "$.Attributes.ERROR_HANDLING_MODULE_ID"
+      },
+      "Identifier": "Generic Error Handling",
+      "Type": "InvokeFlowModule",
+      "Transitions": {
+        "NextAction": "a0f370f7-9f0b-4507-afdd-8a09630f3924",
+        "Errors": [
+          {
+            "NextAction": "a0f370f7-9f0b-4507-afdd-8a09630f3924",
             "ErrorType": "NoMatchingError"
           }
         ]
@@ -293,7 +335,7 @@
         "NextAction": "Play Call Introduction",
         "Errors": [
           {
-            "NextAction": "Error Handling",
+            "NextAction": "Generic Error Handling",
             "ErrorType": "NoMatchingError"
           }
         ]
@@ -309,52 +351,10 @@
         "NextAction": "Update Call Status to In Progress",
         "Errors": [
           {
-            "NextAction": "Error Handling",
+            "NextAction": "Generic Error Handling",
             "ErrorType": "NoMatchingError"
           }
         ]
-      }
-    },
-    {
-      "Parameters": {
-        "FlowModuleId": "$.Attributes.CUST_RESPONSE_MODULE_ID"
-      },
-      "Identifier": "Get Customer Response",
-      "Type": "InvokeFlowModule",
-      "Transitions": {
-        "NextAction": "13b4db6a-3db6-47c6-a4d3-3e7c4c4a0c5c",
-        "Errors": [
-          {
-            "NextAction": "Error Handling",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "FlowModuleId": "$.Attributes.ERROR_HANDLING_MODULE_ID"
-      },
-      "Identifier": "Error Handling",
-      "Type": "InvokeFlowModule",
-      "Transitions": {
-        "NextAction": "a0f370f7-9f0b-4507-afdd-8a09630f3924",
-        "Errors": [
-          {
-            "NextAction": "a0f370f7-9f0b-4507-afdd-8a09630f3924",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "FlowLoggingBehavior": "Enabled"
-      },
-      "Identifier": "Enable Logging",
-      "Type": "UpdateFlowLoggingBehavior",
-      "Transitions": {
-        "NextAction": "Initialize Call"
       }
     }
   ]
