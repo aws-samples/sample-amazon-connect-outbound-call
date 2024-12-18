@@ -311,7 +311,7 @@
   "Actions": [
     {
       "Parameters": {
-        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request/speak>"
+        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request</speak>"
       },
       "Identifier": "Say Error",
       "Type": "MessageParticipant",
