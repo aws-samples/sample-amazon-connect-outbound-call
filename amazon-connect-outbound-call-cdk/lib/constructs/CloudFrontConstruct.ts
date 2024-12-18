@@ -72,12 +72,19 @@ export class CloudFrontConstruct extends Construct {
       comment: `${props.projectName}-WebApp`,
       defaultBehavior: {
         origin: s3origin,
-        cachePolicy: new cf.CachePolicy(this, "CachePolicy", {
-          defaultTtl: Duration.hours(1),
-        }),
+        cachePolicy: cf.CachePolicy.CACHING_OPTIMIZED,  // Using managed policy instead of custom
         allowedMethods: cf.AllowedMethods.ALLOW_ALL,
         viewerProtocolPolicy: cf.ViewerProtocolPolicy.HTTPS_ONLY,
       },
+      // Update default behavior to use Managed Cache Policy
+      // defaultBehavior: {
+      //   origin: s3origin,
+      //   cachePolicy: new cf.CachePolicy(this, "CachePolicy", {
+      //     defaultTtl: Duration.hours(1),
+      //   }),
+      //   allowedMethods: cf.AllowedMethods.ALLOW_ALL,
+      //   viewerProtocolPolicy: cf.ViewerProtocolPolicy.HTTPS_ONLY,
+      // },
       additionalBehaviors: {
         "/api/*": {
           origin: new cdk.aws_cloudfront_origins.RestApiOrigin(props.apigw),
