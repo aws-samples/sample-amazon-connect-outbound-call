@@ -327,7 +327,7 @@
       }
     },
     "Annotations": [],
-    "name": "getCustomerResponseModule",
+    "name": "getCustomerResponseModule-Final",
     "description": "Flow Module for getting Customer Response",
     "status": "published",
     "hash": {}
@@ -441,7 +441,7 @@
     },
     {
       "Parameters": {
-        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request</speak>"
+        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request/speak>"
       },
       "Identifier": "Prompt System Error",
       "Type": "MessageParticipant",

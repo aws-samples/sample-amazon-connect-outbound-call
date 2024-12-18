@@ -1,0 +1,308 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "Ask for Customer Name",
+  "Metadata": {
+    "entryPointPosition": { "x": 40, "y": 40 },
+    "ActionMetadata": {
+      "Timeout Asking for Name": {
+        "position": { "x": 539.2, "y": 597.6 },
+        "isFriendlyName": true,
+        "parameters": { "LambdaFunctionARN": { "useDynamic": true } },
+        "dynamicMetadata": { "action": false, "status": false },
+        "useDynamic": true
+      },
+      "Say Sorry": {
+        "position": { "x": 911.2, "y": 601.6 },
+        "isFriendlyName": true
+      },
+      "94007471-32ee-494b-89a9-d8f185be6d01": {
+        "position": { "x": 1783.2, "y": 619.2 }
+      },
+      "2938f9ab-080b-4ba6-a930-7e0db1b83ab8": {
+        "position": { "x": 1439.2, "y": 20 }
+      },
+      "Update Name": {
+        "position": { "x": 1087.2, "y": 12.8 },
+        "isFriendlyName": true,
+        "parameters": { "LambdaFunctionARN": { "useDynamic": true } },
+        "dynamicMetadata": { "action": false },
+        "useDynamic": true
+      },
+      "4687e9a8-35ce-4673-8890-9181620a192f": {
+        "position": { "x": 1293.6, "y": 593.6 }
+      },
+      "Say Error": {
+        "position": { "x": 1464, "y": 262.4 },
+        "isFriendlyName": true
+      },
+      "21a85f80-6df8-4dfc-8a9c-ca8315130699": {
+        "position": { "x": 147.2, "y": 396.8 }
+      },
+      "Set Name": {
+        "position": { "x": 718.4, "y": 15.2 },
+        "isFriendlyName": true,
+        "parameters": {
+          "Attributes": {
+            "firstName": { "useDynamic": true },
+            "lastName": { "useDynamic": true }
+          }
+        },
+        "dynamicParams": ["firstName", "lastName"]
+      },
+      "3a0c9100-c0ce-4797-8357-fe2fe6b4a6df": {
+        "position": { "x": 587.2, "y": 325.6 }
+      },
+      "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5": {
+        "position": { "x": 1148, "y": 272 },
+        "parameters": { "LambdaFunctionARN": { "useDynamic": true } },
+        "dynamicMetadata": { "action": false, "status": false },
+        "useDynamic": true
+      },
+      "Ask for Customer Name": {
+        "position": { "x": 335.2, "y": 21.6 },
+        "isFriendlyName": true,
+        "parameters": { "LexV2Bot": { "AliasArn": { "useDynamic": true } } },
+        "useDynamicLexBotArn": true,
+        "lexV2BotName": "",
+        "conditionMetadata": [
+          {
+            "id": "bb204fbf-37c4-4d31-9c7f-971d45e02200",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "getCustomerName"
+          }
+        ]
+      }
+    },
+    "Annotations": [],
+    "name": "GetCustomerName",
+    "description": "",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "updateStatus",
+          "status": "TIME_OUT"
+        },
+        "ResponseValidation": { "ResponseType": "STRING_MAP" }
+      },
+      "Identifier": "Timeout Asking for Name",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say Sorry",
+        "Errors": [
+          { "NextAction": "Say Sorry", "ErrorType": "NoMatchingError" }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry we couldn't get your name</speak>"
+      },
+      "Identifier": "Say Sorry",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "4687e9a8-35ce-4673-8890-9181620a192f",
+        "Errors": [
+          {
+            "NextAction": "4687e9a8-35ce-4673-8890-9181620a192f",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "94007471-32ee-494b-89a9-d8f185be6d01",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {},
+      "Identifier": "2938f9ab-080b-4ba6-a930-7e0db1b83ab8",
+      "Type": "EndFlowModuleExecution",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "2",
+        "LambdaInvocationAttributes": { "action": "updateName" },
+        "ResponseValidation": { "ResponseType": "STRING_MAP" }
+      },
+      "Identifier": "Update Name",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "2938f9ab-080b-4ba6-a930-7e0db1b83ab8",
+        "Errors": [
+          {
+            "NextAction": "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          { "ParticipantType": "Customer", "MediaDirections": ["To", "From"] }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "4687e9a8-35ce-4673-8890-9181620a192f",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "94007471-32ee-494b-89a9-d8f185be6d01",
+        "Errors": [
+          {
+            "NextAction": "94007471-32ee-494b-89a9-d8f185be6d01",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request</speak>"
+      },
+      "Identifier": "Say Error",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "4687e9a8-35ce-4673-8890-9181620a192f",
+        "Errors": [
+          {
+            "NextAction": "4687e9a8-35ce-4673-8890-9181620a192f",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": { "LoopCount": "3" },
+      "Identifier": "21a85f80-6df8-4dfc-8a9c-ca8315130699",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "Timeout Asking for Name",
+        "Conditions": [
+          {
+            "NextAction": "3a0c9100-c0ce-4797-8357-fe2fe6b4a6df",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["ContinueLooping"]
+            }
+          },
+          {
+            "NextAction": "Timeout Asking for Name",
+            "Condition": { "Operator": "Equals", "Operands": ["DoneLooping"] }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "firstName": "$.Lex.Slots.firstName",
+          "lastName": "$.Lex.Slots.lastName"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "Set Name",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "Update Name",
+        "Errors": [
+          {
+            "NextAction": "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "SSML": "<speak>Sorry we didn't quite get that.  Can you please repeat that for us or speak up louder as we weren’t able to capture your voice properly</speak>"
+      },
+      "Identifier": "3a0c9100-c0ce-4797-8357-fe2fe6b4a6df",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "Ask for Customer Name",
+        "Errors": [
+          {
+            "NextAction": "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "3",
+        "LambdaInvocationAttributes": {
+          "action": "updateStatus",
+          "status": "ERROR"
+        },
+        "ResponseValidation": { "ResponseType": "STRING_MAP" }
+      },
+      "Identifier": "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Say Error",
+        "Errors": [
+          { "NextAction": "Say Error", "ErrorType": "NoMatchingError" }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Text": "<speak>Please help us confirm your name first by stating your full name now</speak>",
+        "LexV2Bot": { "AliasArn": "$.Attributes.LEX_CUSTOMER_NAME_BOT_ARN" }
+      },
+      "Identifier": "Ask for Customer Name",
+      "Type": "ConnectParticipantWithLexBot",
+      "Transitions": {
+        "NextAction": "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5",
+        "Conditions": [
+          {
+            "NextAction": "Set Name",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": ["getCustomerName"]
+            }
+          }
+        ],
+        "Errors": [
+          {
+            "NextAction": "21a85f80-6df8-4dfc-8a9c-ca8315130699",
+            "ErrorType": "NoMatchingCondition"
+          },
+          {
+            "NextAction": "2ff3f23c-cfb3-4dda-9bff-ba89c5b79cb5",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    }
+  ],
+  "Settings": {
+    "InputParameters": [],
+    "OutputParameters": [],
+    "Transitions": [
+      {
+        "DisplayName": "Success",
+        "ReferenceName": "Success",
+        "Description": ""
+      },
+      { "DisplayName": "Error", "ReferenceName": "Error", "Description": "" }
+    ]
+  }
+}

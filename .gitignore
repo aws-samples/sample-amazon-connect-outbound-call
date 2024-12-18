@@ -23,3 +23,7 @@ dist
 
 # Lambda Layer
 lambdas-layer/*.zip
+
+# Exclude Lambda Layer Outputs
+lambdas-layer/ffmpeg*
+lambdas-layer/python*

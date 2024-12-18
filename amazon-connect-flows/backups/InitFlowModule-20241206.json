@@ -1,0 +1,202 @@
+{
+  "Version": "2019-10-30",
+  "StartAction": "Start Streaming to KVS",
+  "Metadata": {
+    "entryPointPosition": {
+      "x": 344,
+      "y": 23.2
+    },
+    "ActionMetadata": {
+      "Init Error": {
+        "position": {
+          "x": 996.8,
+          "y": 200
+        },
+        "isFriendlyName": true
+      },
+      "Stop Streaming to KVS": {
+        "position": {
+          "x": 1224,
+          "y": 196
+        },
+        "isFriendlyName": true
+      },
+      "1fba9465-7ce3-42a5-8b0d-a08c72373e97": {
+        "position": {
+          "x": 1458.4,
+          "y": 245.6
+        }
+      },
+      "Start Streaming to KVS": {
+        "position": {
+          "x": 477.6,
+          "y": 22.4
+        },
+        "isFriendlyName": true,
+        "toCustomer": true,
+        "fromCustomer": true
+      },
+      "Trigger Recording Lambda": {
+        "position": {
+          "x": 758.4,
+          "y": -2.4
+        },
+        "isFriendlyName": true,
+        "parameters": {
+          "LambdaFunctionARN": {
+            "useDynamic": true
+          }
+        },
+        "dynamicMetadata": {},
+        "useDynamic": true
+      },
+      "Set Voice to Joanna": {
+        "position": {
+          "x": 992.8,
+          "y": -2.4
+        },
+        "isFriendlyName": true,
+        "overrideConsoleVoice": false
+      },
+      "7249bd98-2668-4475-958d-7b1708d5748e": {
+        "position": {
+          "x": 1246.4,
+          "y": -2.4
+        }
+      }
+    },
+    "Annotations": [],
+    "name": "InitFlowModule",
+    "description": "Flow Module for Initializing the outbound call",
+    "status": "published",
+    "hash": {}
+  },
+  "Actions": [
+    {
+      "Parameters": {
+        "Text": "<speak>Failure during initialization</speak>"
+      },
+      "Identifier": "Init Error",
+      "Type": "MessageParticipant",
+      "Transitions": {
+        "NextAction": "Stop Streaming to KVS",
+        "Errors": [
+          {
+            "NextAction": "Stop Streaming to KVS",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Disabled",
+        "Participants": [
+          {
+            "ParticipantType": "Customer",
+            "MediaDirections": [
+              "To",
+              "From"
+            ]
+          }
+        ],
+        "MediaStreamType": "Audio"
+      },
+      "Identifier": "Stop Streaming to KVS",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "1fba9465-7ce3-42a5-8b0d-a08c72373e97",
+        "Errors": [
+          {
+            "NextAction": "1fba9465-7ce3-42a5-8b0d-a08c72373e97",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "1fba9465-7ce3-42a5-8b0d-a08c72373e97",
+      "Type": "DisconnectParticipant",
+      "Transitions": {}
+    },
+    {
+      "Parameters": {
+        "MediaStreamingState": "Enabled",
+        "MediaStreamType": "Audio",
+        "Participants": [
+          {
+            "ParticipantType": "Customer",
+            "MediaDirections": [
+              "To",
+              "From"
+            ]
+          }
+        ]
+      },
+      "Identifier": "Start Streaming to KVS",
+      "Type": "UpdateContactMediaStreamingBehavior",
+      "Transitions": {
+        "NextAction": "Trigger Recording Lambda",
+        "Errors": [
+          {
+            "NextAction": "Init Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LambdaFunctionARN": "$.Attributes.TRIGGER_RECORDING_LAMBDA_ARN",
+        "InvocationTimeLimitSeconds": "2",
+        "ResponseValidation": {
+          "ResponseType": "STRING_MAP"
+        }
+      },
+      "Identifier": "Trigger Recording Lambda",
+      "Type": "InvokeLambdaFunction",
+      "Transitions": {
+        "NextAction": "Set Voice to Joanna",
+        "Errors": [
+          {
+            "NextAction": "Init Error",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "TextToSpeechVoice": "Joanna"
+      },
+      "Identifier": "Set Voice to Joanna",
+      "Type": "UpdateContactTextToSpeechVoice",
+      "Transitions": {
+        "NextAction": "7249bd98-2668-4475-958d-7b1708d5748e"
+      }
+    },
+    {
+      "Parameters": {},
+      "Identifier": "7249bd98-2668-4475-958d-7b1708d5748e",
+      "Type": "EndFlowModuleExecution",
+      "Transitions": {}
+    }
+  ],
+  "Settings": {
+    "InputParameters": [],
+    "OutputParameters": [],
+    "Transitions": [
+      {
+        "DisplayName": "Success",
+        "ReferenceName": "Success",
+        "Description": ""
+      },
+      {
+        "DisplayName": "Error",
+        "ReferenceName": "Error",
+        "Description": ""
+      }
+    ]
+  }
+}

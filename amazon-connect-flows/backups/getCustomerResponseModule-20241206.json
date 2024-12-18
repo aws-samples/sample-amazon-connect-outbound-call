@@ -1,10 +1,10 @@
 {
   "Version": "2019-10-30",
-  "StartAction": "Confirm Instruction",
+  "StartAction": "Collect Customer Input",
   "Metadata": {
     "entryPointPosition": {
-      "x": -197.6,
-      "y": -152
+      "x": -51.2,
+      "y": -4.8
     },
     "ActionMetadata": {
       "Prompt Accepted Modification": {
@@ -118,44 +118,6 @@
         },
         "useDynamic": true
       },
-      "9999c658-9681-424f-91dd-7e82aca7ef6f": {
-        "position": {
-          "x": 809.6,
-          "y": -36.8
-        },
-        "parameters": {
-          "Attributes": {
-            "beneAccountNo": {
-              "useDynamic": true
-            }
-          }
-        },
-        "dynamicParams": [
-          "beneAccountNo"
-        ]
-      },
-      "1d863bd3-f027-4fb3-92c4-901ec7600e2b": {
-        "position": {
-          "x": 806.4,
-          "y": -222.4
-        },
-        "parameters": {
-          "Attributes": {
-            "beneAccountNo": {
-              "useDynamic": true
-            }
-          }
-        },
-        "dynamicParams": [
-          "beneAccountNo"
-        ]
-      },
-      "d1a9dd93-d6ae-4e49-bcec-69e14da5d659": {
-        "position": {
-          "x": 817.6,
-          "y": 240.8
-        }
-      },
       "Update Reject Response": {
         "position": {
           "x": 1071.2,
@@ -207,6 +169,46 @@
         "position": {
           "x": 196.8,
           "y": 418.4
+        },
+        "isFriendlyName": false
+      },
+      "9999c658-9681-424f-91dd-7e82aca7ef6f": {
+        "position": {
+          "x": 809.6,
+          "y": -36.8
+        },
+        "parameters": {
+          "Attributes": {
+            "beneAccountNo": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicParams": [
+          "beneAccountNo"
+        ]
+      },
+      "1d863bd3-f027-4fb3-92c4-901ec7600e2b": {
+        "position": {
+          "x": 806.4,
+          "y": -222.4
+        },
+        "isFriendlyName": false,
+        "parameters": {
+          "Attributes": {
+            "beneAccountNo": {
+              "useDynamic": true
+            }
+          }
+        },
+        "dynamicParams": [
+          "beneAccountNo"
+        ]
+      },
+      "d1a9dd93-d6ae-4e49-bcec-69e14da5d659": {
+        "position": {
+          "x": 817.6,
+          "y": 240.8
         }
       },
       "Update Error Status": {
@@ -226,43 +228,6 @@
         },
         "useDynamic": true
       },
-      "Ask for Modified Input": {
-        "position": {
-          "x": 538.4,
-          "y": -168
-        },
-        "isFriendlyName": true,
-        "parameters": {
-          "LexV2Bot": {
-            "AliasArn": {
-              "useDynamic": true,
-              "useLexBotDropdown": false
-            }
-          }
-        },
-        "useDynamicLexBotArn": true,
-        "lexV2BotName": "",
-        "conditionMetadata": [
-          {
-            "id": "c441c489-000b-4959-adb3-0dc2966033f8",
-            "operator": {
-              "name": "Equals",
-              "value": "Equals",
-              "shortDisplay": "="
-            },
-            "value": "modifyBeneAccountNo"
-          },
-          {
-            "id": "2dad9e84-bf73-4097-876e-b7e2074dd806",
-            "operator": {
-              "name": "Equals",
-              "value": "Equals",
-              "shortDisplay": "="
-            },
-            "value": "modifyValueDate"
-          }
-        ]
-      },
       "Collect Customer Input": {
         "position": {
           "x": 174.4,
@@ -272,16 +237,18 @@
         "parameters": {
           "LexV2Bot": {
             "AliasArn": {
-              "useDynamic": true,
-              "useLexBotDropdown": false
+              "displayName": "connectBotAlias",
+              "useLexBotDropdown": true,
+              "lexV2BotName": "OutboundCall-MainBot"
             }
           }
         },
-        "useDynamicLexBotArn": true,
-        "lexV2BotName": "",
+        "useLexBotDropdown": true,
+        "lexV2BotName": "OutboundCall-MainBot",
+        "lexV2BotAliasName": "connectBotAlias",
         "conditionMetadata": [
           {
-            "id": "5b6ee486-f094-42e7-82f7-f38c8ee869bd",
+            "id": "ac2fbe2e-77de-481d-93e2-293d96952271",
             "operator": {
               "name": "Equals",
               "value": "Equals",
@@ -290,7 +257,7 @@
             "value": "confirmInstruction"
           },
           {
-            "id": "f7f3c77c-8c0b-4ee9-8106-caadb107d59f",
+            "id": "2ccf62ec-5f72-4538-b8f9-e02dc64da095",
             "operator": {
               "name": "Equals",
               "value": "Equals",
@@ -299,7 +266,7 @@
             "value": "denyInstruction"
           },
           {
-            "id": "cf524260-5706-43ff-b9f0-b8ee8040d1a8",
+            "id": "0597ec2c-f96c-4461-98b1-f2cf678841d5",
             "operator": {
               "name": "Equals",
               "value": "Equals",
@@ -308,7 +275,7 @@
             "value": "modifyInstruction"
           },
           {
-            "id": "9fb11ab9-c901-4c8e-9626-59b1dd1551c5",
+            "id": "71e9fd6c-5362-4ac0-a50a-b0376cfd13df",
             "operator": {
               "name": "Equals",
               "value": "Equals",
@@ -318,12 +285,44 @@
           }
         ]
       },
-      "Confirm Instruction": {
+      "Ask for Modified Input": {
         "position": {
-          "x": -66.4,
-          "y": -170.4
+          "x": 538.4,
+          "y": -168
         },
-        "isFriendlyName": true
+        "isFriendlyName": true,
+        "parameters": {
+          "LexV2Bot": {
+            "AliasArn": {
+              "displayName": "modifyBotAlias",
+              "useLexBotDropdown": true,
+              "lexV2BotName": "OutboundCall-ModificationBot"
+            }
+          }
+        },
+        "useLexBotDropdown": true,
+        "lexV2BotName": "OutboundCall-ModificationBot",
+        "lexV2BotAliasName": "modifyBotAlias",
+        "conditionMetadata": [
+          {
+            "id": "fa297847-0b14-43a8-9b89-07f7563f9322",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "modifyBeneAccountNo"
+          },
+          {
+            "id": "08da5d19-b836-48e5-bc4c-cc556f16439c",
+            "operator": {
+              "name": "Equals",
+              "value": "Equals",
+              "shortDisplay": "="
+            },
+            "value": "modifyValueDate"
+          }
+        ]
       }
     },
     "Annotations": [],
@@ -441,7 +440,7 @@
     },
     {
       "Parameters": {
-        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request</speak>"
+        "SSML": "<speak>Sorry, we have encountered system error and unable to process your request/speak>"
       },
       "Identifier": "Prompt System Error",
       "Type": "MessageParticipant",
@@ -539,74 +538,6 @@
           {
             "NextAction": "Prompt Timeout",
             "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "Attributes": {
-          "beneAccountNo": "$.Lex.Slots.beneAccount"
-        },
-        "TargetContact": "Current"
-      },
-      "Identifier": "9999c658-9681-424f-91dd-7e82aca7ef6f",
-      "Type": "UpdateContactAttributes",
-      "Transitions": {
-        "NextAction": "Update Modified Value",
-        "Errors": [
-          {
-            "NextAction": "Update Error Status",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "Attributes": {
-          "beneAccountNo": "$.Lex.Slots.beneAccount"
-        },
-        "TargetContact": "Current"
-      },
-      "Identifier": "1d863bd3-f027-4fb3-92c4-901ec7600e2b",
-      "Type": "UpdateContactAttributes",
-      "Transitions": {
-        "NextAction": "Update Modified Value",
-        "Errors": [
-          {
-            "NextAction": "Update Error Status",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "LoopCount": "3"
-      },
-      "Identifier": "d1a9dd93-d6ae-4e49-bcec-69e14da5d659",
-      "Type": "Loop",
-      "Transitions": {
-        "NextAction": "Update Timeout Status",
-        "Conditions": [
-          {
-            "NextAction": "Ask for Modified Input",
-            "Condition": {
-              "Operator": "Equals",
-              "Operands": [
-                "ContinueLooping"
-              ]
-            }
-          },
-          {
-            "NextAction": "Update Timeout Status",
-            "Condition": {
-              "Operator": "Equals",
-              "Operands": [
-                "DoneLooping"
-              ]
-            }
           }
         ]
       }
@@ -737,6 +668,74 @@
     },
     {
       "Parameters": {
+        "Attributes": {
+          "beneAccountNo": "$.Lex.Slots.beneAccount"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "9999c658-9681-424f-91dd-7e82aca7ef6f",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "Update Modified Value",
+        "Errors": [
+          {
+            "NextAction": "Update Error Status",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "Attributes": {
+          "beneAccountNo": "$.Lex.Slots.beneAccount"
+        },
+        "TargetContact": "Current"
+      },
+      "Identifier": "1d863bd3-f027-4fb3-92c4-901ec7600e2b",
+      "Type": "UpdateContactAttributes",
+      "Transitions": {
+        "NextAction": "Update Modified Value",
+        "Errors": [
+          {
+            "NextAction": "Update Error Status",
+            "ErrorType": "NoMatchingError"
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
+        "LoopCount": "3"
+      },
+      "Identifier": "d1a9dd93-d6ae-4e49-bcec-69e14da5d659",
+      "Type": "Loop",
+      "Transitions": {
+        "NextAction": "Update Timeout Status",
+        "Conditions": [
+          {
+            "NextAction": "Ask for Modified Input",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "ContinueLooping"
+              ]
+            }
+          },
+          {
+            "NextAction": "Update Timeout Status",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "DoneLooping"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "Parameters": {
         "LambdaFunctionARN": "$.Attributes.UPDATE_LAMBDA_ARN",
         "InvocationTimeLimitSeconds": "3",
         "LambdaInvocationAttributes": {
@@ -761,52 +760,9 @@
     },
     {
       "Parameters": {
-        "SSML": "<speak>Please say the field name: Beneficiary Account Number or Value Date</speak>",
+        "SSML": "<speak>The instruction that we've received are: Beneficiary Name $.Attributes.beneficiaryName, Beneficiary Account Number <say-as interpret-as='characters'>$.Attributes.beneficiaryAccountNumber</say-as>, Beneficiary $.Attributes.beneficiaryBank, Debit Account <say-as interpret-as='characters'>$.Attributes.orderingAccountNumber</say-as>, amount <say-as interpret-as='currency'>USD$.Attributes.amt</say-as>, value date <say-as interpret-as='date' format='mdy'>$.Attributes.valueDate</say-as>. Is this correct? Please answer with an answer of Yes or No.  You can also say Modify to amend the instruction or Repeat for me to repeat the instructions again for you.</speak>",
         "LexV2Bot": {
-          "AliasArn": "$.Attributes.LEX_MODIFY_BOT_ARN"
-        }
-      },
-      "Identifier": "Ask for Modified Input",
-      "Type": "ConnectParticipantWithLexBot",
-      "Transitions": {
-        "NextAction": "Update Error Status",
-        "Conditions": [
-          {
-            "NextAction": "1d863bd3-f027-4fb3-92c4-901ec7600e2b",
-            "Condition": {
-              "Operator": "Equals",
-              "Operands": [
-                "modifyBeneAccountNo"
-              ]
-            }
-          },
-          {
-            "NextAction": "9999c658-9681-424f-91dd-7e82aca7ef6f",
-            "Condition": {
-              "Operator": "Equals",
-              "Operands": [
-                "modifyValueDate"
-              ]
-            }
-          }
-        ],
-        "Errors": [
-          {
-            "NextAction": "d1a9dd93-d6ae-4e49-bcec-69e14da5d659",
-            "ErrorType": "NoMatchingCondition"
-          },
-          {
-            "NextAction": "Update Error Status",
-            "ErrorType": "NoMatchingError"
-          }
-        ]
-      }
-    },
-    {
-      "Parameters": {
-        "Text": "Is this correct? Please answer with an answer of Yes or No.  You can also say Modify to amend the instruction or Repeat for me to repeat the instructions again for you.",
-        "LexV2Bot": {
-          "AliasArn": "$.Attributes.LEX_MAIN_BOT_ARN"
+          "AliasArn": "arn:aws:lex:ap-southeast-1:891377269035:bot-alias/RYD0H3UL1Y/OQA2TANECD"
         }
       },
       "Identifier": "Collect Customer Input",
@@ -865,15 +821,42 @@
     },
     {
       "Parameters": {
-        "SSML": "<speak>The instruction that we've received are: Beneficiary Name $.Attributes.beneficiaryName, Beneficiary Account Number <say-as interpret-as='characters'>$.Attributes.beneficiaryAccountNumber</say-as>, Beneficiary $.Attributes.beneficiaryBank, Debit Account <say-as interpret-as='characters'>$.Attributes.orderingAccountNumber</say-as>, amount <say-as interpret-as='currency'>USD$.Attributes.amt</say-as>, value date <say-as interpret-as='date' format='mdy'>$.Attributes.valueDate</say-as>\n</speak>"
+        "SSML": "<speak>Please say the field name: Beneficiary Account Number or Value Date</speak>",
+        "LexV2Bot": {
+          "AliasArn": "arn:aws:lex:ap-southeast-1:891377269035:bot-alias/7FC0JUBHM5/JWW2Z6DUMF"
+        }
       },
-      "Identifier": "Confirm Instruction",
-      "Type": "MessageParticipant",
+      "Identifier": "Ask for Modified Input",
+      "Type": "ConnectParticipantWithLexBot",
       "Transitions": {
-        "NextAction": "Collect Customer Input",
+        "NextAction": "Update Error Status",
+        "Conditions": [
+          {
+            "NextAction": "1d863bd3-f027-4fb3-92c4-901ec7600e2b",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "modifyBeneAccountNo"
+              ]
+            }
+          },
+          {
+            "NextAction": "9999c658-9681-424f-91dd-7e82aca7ef6f",
+            "Condition": {
+              "Operator": "Equals",
+              "Operands": [
+                "modifyValueDate"
+              ]
+            }
+          }
+        ],
         "Errors": [
           {
-            "NextAction": "Collect Customer Input",
+            "NextAction": "d1a9dd93-d6ae-4e49-bcec-69e14da5d659",
+            "ErrorType": "NoMatchingCondition"
+          },
+          {
+            "NextAction": "Update Error Status",
             "ErrorType": "NoMatchingError"
           }
         ]
