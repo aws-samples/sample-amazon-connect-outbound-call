@@ -31,7 +31,7 @@ Run each of the following commands in the terminal one by one.
 
 Go to the utils layer folder
 
-```
+```sh
 cd lambdas-layer
 ```
 
@@ -139,7 +139,7 @@ Additionally, you will need to update the Amazon Connect Instance Alias to a uni
 
 To deploy the code, run:
 
-```
+```sh
 cd amazon-connect-outbound-call-cdk
 npm install
 cdk deploy --all --require-approval never
@@ -160,6 +160,6 @@ cdk deploy --all --require-approval never
 
 To clean up the environment, run:
 
-```
+```sh
 cdk destroy --all --require-approval never
 ```

@@ -254,6 +254,15 @@ export class LexStack extends cdk.Stack {
       botVersion: nameIdBotV1.attrBotVersion,
       description: "Alias for NameIdBot",
 
+      botAliasLocaleSettings: [
+        {
+          botAliasLocaleSetting: {
+            enabled: true,
+          },
+          localeId: "en_US",
+        },
+      ],
+
       conversationLogSettings: {
         textLogSettings: [
           {
@@ -370,6 +379,15 @@ export class LexStack extends cdk.Stack {
       botId: connectBot.ref,
       botVersion: connectBotV1.attrBotVersion,
       description: "Alias for ConnectBot",
+
+      botAliasLocaleSettings: [
+        {
+          botAliasLocaleSetting: {
+            enabled: true,
+          },
+          localeId: "en_US",
+        },
+      ],
 
       conversationLogSettings: {
         textLogSettings: [
@@ -545,6 +563,15 @@ export class LexStack extends cdk.Stack {
       botId: modificationBot.ref,
       botVersion: modifyBotV1.attrBotVersion,
       description: "Alias for Modify Bot",
+
+      botAliasLocaleSettings: [
+        {
+          botAliasLocaleSetting: {
+            enabled: true,
+          },
+          localeId: "en_US",
+        },
+      ],
 
       conversationLogSettings: {
         textLogSettings: [
