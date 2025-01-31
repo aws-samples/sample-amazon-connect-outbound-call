@@ -145,16 +145,32 @@ npm install
 cdk deploy --all --require-approval never
 ```
 
-#### Updating Amazon Connect Flow with Lex ARN
+### Accessing Web UI
 
-1. Go to Amazon Connect Console and click on the Access URL, you will be presented with Amazon Connect Login Screen
-1. Type the username admin and the password that you set on cdk.json earlier.
-1. Click on Routing menu on the left and choose Flows, then click on Modules
-1. Click on getCustNameFlowModule, click on “Ask for Customer Name” block to edit. On the Lex Box, choose Select a Lex Bot. Choose GetCustomerName Bot and NameIdBotAlias for the alias
-1. Click on the Save button on the top right then click Publish to publish this module
-1. Click on GetCustomerResponseModule, Click “Ask for Customer Input” block, and choose MainBot and connectBotAlias for Lex Bot Name and Alias
-1. Click on “Ask customer for modified values” block to edit, and choose ModificationBot and modifyBotAlias for Lex Bot Name and Alias
-1. Click on the Save button on the top right then click Publish to publish this module
+Take note of the cloud front distribution name from the outputs of the OutboundCallFrontendStack OutboundCallFrontendStack.webappurl.
+
+Open a web browser and navigate to the Web Application URL. You will be presented with a login screen.
+
+#### Initiating outbound call
+
+You can trigger the outbound call via the Web UI:
+
+1. Navigate to the Web Application URL
+2. Choose the hamburger button on the top left corner and choose Initiate Callback
+3. Choose the country code and enter the recipient phone number
+4. Modify the instruction details accordingly
+5. Click on Submit button
+
+This will trigger an outgoing call to the given phone number
+
+#### Backend Process
+
+When submitted, the system:
+
+1. Stores the message payload in an Amazon SQS queue
+1. Triggers a Lambda function to initiate the outbound call
+
+Note: The first outbound call attempt may fail during Kinesis Streams initialization. If this occurs, simply retry - subsequent attempts should succeed.
 
 ### Destroy
 
